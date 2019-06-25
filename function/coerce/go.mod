@@ -1,4 +1,4 @@
-module qingcloud-flow/plugin/function/coerce
+module github.com/qingcloudhx/flow-plugin/function/coerce
 
 go 1.12
 

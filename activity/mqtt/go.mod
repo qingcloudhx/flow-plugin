@@ -1,4 +1,4 @@
-module qingcloud-flow/edge-contrib/activity/mqtt
+module github.com/qingcloudhx/flow-plugin/activity/mqtt
 
 go 1.12
 

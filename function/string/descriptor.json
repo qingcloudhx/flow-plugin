@@ -4,7 +4,7 @@
   "version": "0.9.0",
   "title": "String Functions",
   "description": "String Functions",
-  "homepage": "https://qingcloud-flow/plugin/tree/master/function/string",
+  "homepage": "https://github.com/qingcloudhx/flow-plugin/tree/master/function/string",
   "functions": [
     {
       "name": "concat",

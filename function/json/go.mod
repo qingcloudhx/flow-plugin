@@ -1,4 +1,4 @@
-module qingcloud-flow/plugin/function/json
+module github.com/qingcloudhx/flow-plugin/function/json
 
 require (
 	github.com/oliveagle/jsonpath v0.0.0-20180606110733-2e52cf6e6852
