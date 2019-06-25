@@ -1,0 +1,29 @@
+{
+  "name": "flogo-channel",
+  "type": "flogo:trigger",
+  "version": "0.9.0",
+  "title": "Listen to Channel",
+  "description": "Listens to Channel",
+  "homepage": "https://github.com/qingcloudhx/flow-plugin/trigger/channel",
+  "settings": [
+  ],
+  "output": [
+    {
+      "name": "data",
+      "type": "any",
+      "description": "The data pulled from the channel"
+    }
+  ],
+  "reply": [
+  ],
+  "handler": {
+    "settings": [
+      {
+        "name": "channel",
+        "type": "string",
+        "required" : true,
+        "description": "The internal engine channel"
+      }
+    ]
+  }
+}
