@@ -1,0 +1,106 @@
+{
+  "name": "flogo-rest",
+  "type": "flogo:activity",
+  "version": "0.9.0",
+  "title": "REST Invoke",
+  "description": "Invokes a REST Service",
+  "homepage": "https://qingcloud-flow/plugin/tree/master/activity/rest",
+  "settings": [
+    {
+      "name": "method",
+      "type": "string",
+      "required": true,
+      "allowed": [ "GET", "POST", "PUT", "PATCH", "DELETE" ],
+      "description" : "The HTTP method to invoke"
+    },
+    {
+      "name": "uri",
+      "type": "string",
+      "required": true,
+      "description" : "The URI of the service to invoke"
+    },
+    {
+      "name": "headers",
+      "type": "params",
+      "description" : "The HTTP header parameters"
+    },
+    {
+      "name": "proxy",
+      "type": "string",
+      "description" : "The address of the proxy server to be use"
+    },
+    {
+      "name": "timeout",
+      "type": "int",
+      "description" : "The request timeout in seconds"
+    },
+    {
+      "name": "sslConfig",
+      "type": "object",
+      "description" : "Optional SSL Settings",
+      "properties": [
+        {
+          "name": "skipVerify",
+          "type": "boolean",
+          "value": "true",
+          "description" : "Skip SSL validation"
+        },
+        {
+          "name": "useSystemCert",
+          "type": "boolean",
+          "value": "true",
+          "description" : "Use the systems root certificate file"
+        },
+        {
+          "name": "certFile",
+          "type":"string",
+          "description" : "Path to PEM encoded client certificate"
+        },
+        {
+          "name": "keyFile",
+          "type":"string",
+          "description" : "Path to PEM encoded client key"
+        },
+        {
+          "name": "caFile",
+          "type":"string",
+          "description" : "Path to PEM encoded root certificates file"
+        }
+      ]
+    }
+  ],
+  "input": [
+    {
+      "name": "pathParams",
+      "type": "params",
+      "description" : "The path parameters (e.g., 'id' in http://.../pet/:id/name )"
+    },
+    {
+      "name": "queryParams",
+      "type": "params",
+      "description" : "The query parameters (e.g., 'id' in http://.../pet?id=someValue )"
+    },
+    {
+      "name": "headers",
+      "type": "params",
+      "description" : "The HTTP header parameters"
+    },
+    {
+      "name": "content",
+      "type": "any",
+      "description" : "The message content to send. This is only used in POST, PUT, and PATCH"
+    }
+  ],
+  "output": [
+    {
+      "name": "status",
+      "type": "int",
+      "description" : "The HTTP status code"
+    },
+    {
+      "name": "data",
+      "type": "any",
+      "description" : "The HTTP response data"
+    }
+  ]
+}

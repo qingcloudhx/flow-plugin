@@ -1,0 +1,29 @@
+{
+  "name": "flogo-counter",
+  "type": "flogo:activity",
+  "version": "0.9.0",
+  "title": "Counter Activity",
+  "description": "Global Counter Activity",
+  "homepage": "https://qingcloud-flow/plugin/tree/master/activity/counter",
+  "settings":[
+    {
+      "name": "counterName",
+      "type": "string",
+      "required": true,
+      "description": "The name of the counter"
+    },
+    {
+      "name": "op",
+      "type": "string",
+      "allowed" : ["get", "increment", "reset"],
+      "description": "The counter operation, 'get' is the default operation"
+    }
+  ],
+  "output": [
+    {
+      "name": "value",
+      "type": "int",
+      "description": "The result of the counter operation"
+    }
+  ]
+}
