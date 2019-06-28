@@ -5,7 +5,17 @@ import (
 )
 
 type Settings struct {
-	url string `md:"broker,required"` // The broker URL
+	Port          string                 `md:"port,required"` // The broker URL
+	TokenSsl      string                 `md:"tokenSsl,required`
+	Broker        string                 `md:"broker,required"` // The broker URL
+	Id            string                 `md:"id,required"`     // The id of client
+	Username      string                 `md:"username"`        // The user's name
+	Password      string                 `md:"password"`        // The user's password
+	Store         string                 `md:"store"`           // The store for message persistence
+	CleanSession  bool                   `md:"cleanSession"`    // Clean session flag
+	KeepAlive     int                    `md:"keepAlive"`       // Keep Alive time in seconds
+	AutoReconnect bool                   `md:"autoReconnect"`   // Enable Auto-Reconnect
+	SSLConfig     map[string]interface{} `md:"sslConfig"`       // SSL Configuration
 }
 
 type HandlerSettings struct {
@@ -15,7 +25,7 @@ type HandlerSettings struct {
 }
 
 type Output struct {
-	Message string `md:"message"` // The message recieved
+	Message []byte `md:"message"` // The message recieved
 }
 
 type Reply struct {
@@ -31,7 +41,7 @@ func (o *Output) ToMap() map[string]interface{} {
 func (o *Output) FromMap(values map[string]interface{}) error {
 
 	var err error
-	o.Message, err = coerce.ToString(values["message"])
+	o.Message, err = coerce.ToBytes(values["message"])
 	if err != nil {
 		return err
 	}

@@ -1,16 +1,103 @@
 {
-    "name": "flogo-mqtt",
+    "name": "flogo-mqtt-broker",
     "type": "flogo:trigger",
     "version": "0.1.0",
-    "title": "Receive MQTT Message",
-    "description": "Simple MQTT Trigger",
-    "homepage": "https://github.com/qingcloudhx/edge-contrib/tree/master/trigger/mqtt",
+    "title": "Receive MQTT Broker Message",
+    "description": "Simple MQTT Broker Trigger",
+    "homepage": "https://github.com/qingcloudhx/edge-contrib/tree/master/trigger/mqtt-broker",
     "settings":[
       {
-        "name": "url",
+        "name": "port",
         "type": "string",
         "required": true,
         "description": "The broker url"
+      },
+      {
+        "name": "tokenSSL",
+        "type": "string",
+        "required": true,
+        "description": "The broker ssl"
+      },
+      {
+        "name": "topic-down",
+        "type": "string",
+        "description": "The topic to subscribe to"
+      },
+      {
+        "name": "broker",
+        "type": "string",
+        "required": true,
+        "description": "The broker url"
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": true,
+        "description": "The id of client"
+      },
+      {
+        "name": "username",
+        "type": "string",
+        "description": "The user's name"
+      },
+      {
+        "name": "password",
+        "type": "string",
+        "description": "The user's password"
+      },
+      {
+        "name": "store",
+        "type": "string",
+        "description": "The store for message persistence"
+      },
+      {
+        "name": "cleanSession",
+        "type": "boolean",
+        "description": "Clean session flag"
+      },
+      {
+        "name": "autoReconnect",
+        "type": "boolean",
+        "description": "Enable Auto-Reconnect"
+      },
+      {
+        "name": "keepAlive",
+        "type": "int",
+        "description": "Keep Alive Time in seconds"
+      },
+      {
+        "name": "sslConfig",
+        "type": "object",
+        "description": "Optional SSL Settings",
+        "properties": [
+          {
+            "name": "skipVerify",
+            "type": "boolean",
+            "value": "true",
+            "description": "Skip SSL validation"
+          },
+          {
+            "name": "useSystemCert",
+            "type": "boolean",
+            "value": "true",
+            "description": "Use the systems root certificate file"
+          },
+          {
+            "name": "certFile",
+            "type": "string",
+            "description": "Path to PEM encoded client certificate"
+          },
+          {
+            "name": "keyFile",
+            "type": "string",
+            "description": "Path to PEM encoded client key"
+          },
+          {
+            "name": "caFile",
+            "type": "string",
+            "description": "Path to PEM encoded root certificates file"
+          }
+        ]
       }
     ],
     "output": [
@@ -23,17 +110,7 @@
     "handler": {
       "settings": [
         {
-          "name": "url",
-          "type": "string",
-          "description": "The mqtt client"
-        },
-        {
           "name": "topic-up",
-          "type": "string",
-          "description": "The topic to subscribe to"
-        },
-        {
-          "name": "topic-down",
           "type": "string",
           "description": "The topic to subscribe to"
         },
