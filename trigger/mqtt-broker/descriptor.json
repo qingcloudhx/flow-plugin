@@ -13,15 +13,10 @@
         "description": "The broker url"
       },
       {
-        "name": "tokenSSL",
+        "name": "tokenSsl",
         "type": "string",
         "required": true,
         "description": "The broker ssl"
-      },
-      {
-        "name": "topic",
-        "type": "string",
-        "description": "The topic to subscribe to"
       },
       {
         "name": "broker",
