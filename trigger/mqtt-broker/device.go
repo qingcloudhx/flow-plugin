@@ -1,4 +1,4 @@
-package mqtt
+package mqtt_broker
 
 import (
 	mqtt "github.com/eclipse/paho.mqtt.golang"

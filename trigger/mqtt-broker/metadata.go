@@ -1,4 +1,4 @@
-package mqtt
+package mqtt_broker
 
 import (
 	"github.com/qingcloudhx/core/data/coerce"
@@ -45,7 +45,6 @@ func (o *Output) FromMap(values map[string]interface{}) error {
 	if err != nil {
 		return err
 	}
-
 	return nil
 }
 
