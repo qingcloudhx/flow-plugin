@@ -6,8 +6,8 @@ package mqtt
  */
 
 type DeviceUpStatusMsg struct {
-	Status     string `json:"status"`
-	UserId     string `json:"user_id"`
+	Status string `json:"status"`
+	//UserId     string `json:"user_id"`
 	ThingId    string `json:"thing_id"`
 	PropertyId string `json:"property_id"`
 	DeviceId   string `json:"device_id"`

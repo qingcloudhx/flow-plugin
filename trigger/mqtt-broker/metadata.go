@@ -5,23 +5,23 @@ import (
 )
 
 type Settings struct {
-	Port          string                 `md:"port,required"` // The broker URL
-	TokenSsl      string                 `md:"tokenSsl,required`
-	Broker        string                 `md:"broker,required"` // The broker URL
-	Id            string                 `md:"id,required"`     // The id of client
-	Username      string                 `md:"username"`        // The user's name
-	Password      string                 `md:"password"`        // The user's password
-	Store         string                 `md:"store"`           // The store for message persistence
-	CleanSession  bool                   `md:"cleanSession"`    // Clean session flag
-	KeepAlive     int                    `md:"keepAlive"`       // Keep Alive time in seconds
-	AutoReconnect bool                   `md:"autoReconnect"`   // Enable Auto-Reconnect
-	SSLConfig     map[string]interface{} `md:"sslConfig"`       // SSL Configuration
+	Port          string                 `md:"port,required"`     // The broker URL
+	TokenSsl      string                 `md:"tokenSsl,required"` //The client token
+	Broker        string                 `md:"broker,required"`   // The broker URL
+	Id            string                 `md:"id,required"`       // The id of client
+	Username      string                 `md:"username"`          // The user's name
+	Password      string                 `md:"password"`          // The user's password
+	Store         string                 `md:"store"`             // The store for message persistence
+	CleanSession  bool                   `md:"cleanSession"`      // Clean session flag
+	KeepAlive     int                    `md:"keepAlive"`         // Keep Alive time in second // s
+	AutoReconnect bool                   `md:"autoReconnect"`     // Enable Auto-Reconnect
+	SSLConfig     map[string]interface{} `md:"sslConfig"`         // SSL Configuration
 }
 
 type HandlerSettings struct {
-	TopicDown string `md:"topic_down,required"` // The topic to listen on
-	TopicUp   string `md:"topic_up,required"`   // The topic to reply on
-	Qos       int    `md:"qos"`                 // The Quality of Service
+	Topic string `md:"topic,required"` // The topic to listen on
+	//TopicUp   string `md:"topic_up,required"`   // The topic to reply on
+	Qos int `md:"qos"` // The Quality of Service
 }
 
 type Output struct {

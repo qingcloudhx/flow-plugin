@@ -19,7 +19,7 @@
         "description": "The broker ssl"
       },
       {
-        "name": "topic-down",
+        "name": "topic",
         "type": "string",
         "description": "The topic to subscribe to"
       },
@@ -66,6 +66,11 @@
         "description": "Keep Alive Time in seconds"
       },
       {
+        "name": "token",
+        "type": "string",
+        "description": "The device token"
+      },
+      {
         "name": "sslConfig",
         "type": "object",
         "description": "Optional SSL Settings",
@@ -110,7 +115,7 @@
     "handler": {
       "settings": [
         {
-          "name": "topic-up",
+          "name": "topic",
           "type": "string",
           "description": "The topic to subscribe to"
         },

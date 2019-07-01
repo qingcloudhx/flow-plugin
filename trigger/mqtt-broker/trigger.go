@@ -111,7 +111,7 @@ func (t *Trigger) Initialize(ctx trigger.InitContext) error {
 			return err
 		}
 
-		t.handlers[s.TopicUp] = &clientHandler{handler: handler, settings: s}
+		t.handlers[s.Topic] = &clientHandler{handler: handler, settings: s}
 	}
 
 	//server
@@ -154,12 +154,12 @@ func (t *Trigger) Start() (err error) {
 
 	for _, handler := range t.handlers {
 
-		if token := client.Subscribe(handler.settings.TopicDown, byte(handler.settings.Qos), t.getHanlder(handler)); token.Wait() && token.Error() != nil {
-			t.logger.Errorf("Error subscribing to topic %s: %s", handler.settings.TopicDown, token.Error())
+		if token := client.Subscribe(handler.settings.Topic, byte(handler.settings.Qos), t.getHanlder(handler)); token.Wait() && token.Error() != nil {
+			t.logger.Errorf("Error subscribing to topic %s: %s", handler.settings.Topic, token.Error())
 			return token.Error()
 		}
 
-		t.logger.Infof("Subscribed to topic: %s,broker:%s", handler.settings.TopicDown, t.settings.Broker)
+		t.logger.Infof("Subscribed to topic: %s,broker:%s", handler.settings.Topic, t.settings.Broker)
 	}
 	url := "tcp://0.0.0.0:" + t.settings.Port
 	if err = t.runServer(url); err != nil {
@@ -175,9 +175,9 @@ func (t *Trigger) Stop() error {
 
 	//unsubscribe from topics
 	for _, handler := range t.handlers {
-		t.logger.Debug("Unsubscribing from topic: ", handler.settings.TopicDown)
-		if token := t.client.Unsubscribe(handler.settings.TopicDown); token.Wait() && token.Error() != nil {
-			t.logger.Errorf("Error unsubscribing from topic %s: %s", handler.settings.TopicDown, token.Error())
+		t.logger.Debug("Unsubscribing from topic: ", handler.settings.Topic)
+		if token := t.client.Unsubscribe(handler.settings.Topic); token.Wait() && token.Error() != nil {
+			t.logger.Errorf("Error unsubscribing from topic %s: %s", handler.settings.Topic, token.Error())
 		}
 	}
 
@@ -288,7 +288,7 @@ func (t *Trigger) runServer(url string) error {
 				t.logger.Infof("[%s] forwarded topic:%s,recv:%s", client.ID(), msg.Topic, string(msg.Payload))
 			}
 		default:
-			t.logger.Infof("[%s] event:%s,err:%+v", client.ID(), e, err)
+			t.logger.Infof("[%s] event:%s", client.ID(), e)
 		}
 	}
 	engine := broker.NewEngine(backend)

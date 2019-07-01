@@ -3,6 +3,7 @@ package mqtt
 import (
 	"encoding/json"
 	"fmt"
+	"time"
 
 	"github.com/pkg/errors"
 
@@ -19,6 +20,10 @@ const (
 	thing_id  = "thid"
 )
 
+var (
+	inc uint16
+)
+
 type ConInfo struct {
 	// The clients client id.
 	ClientID string `json:"client_id"`
@@ -28,11 +33,20 @@ type ConInfo struct {
 	Password string `json:"password"`
 }
 
+func uuid() uint16 {
+	inc++
+	return inc
+}
 func buildUpTopic(id, thingId string) string {
 	return fmt.Sprintf("/sys/%s/%s/thing/event/property/post", thingId, id)
 }
 func buildDownTopic(id, thingId string) string {
 	return fmt.Sprintf("/sys/%s/%s/thing/event/property/post_reply", thingId, id)
+}
+
+//up status
+func buildStatusToipc(id, thingId string) string {
+	return fmt.Sprintf("/as/mqtt/status/%s/%s", thingId, id)
 }
 func parseUser(data []byte) string {
 	info := &ConInfo{}
@@ -67,4 +81,16 @@ func parseToken(pubKey, tokenString string) (string, string, error) {
 		return "", "", errors.New("device id type error")
 	}
 	return id, thingId, nil
+}
+
+func buildHeartBeat(id, thingId, status string) []byte {
+	msg := &DeviceUpStatusMsg{
+		DeviceId:   id,
+		ThingId:    thingId,
+		PropertyId: IOT_DEVICE_STATUS_END,
+		Time:       time.Now().Unix(),
+		Status:     status,
+	}
+	data, _ := json.Marshal(msg)
+	return data
 }
