@@ -4,7 +4,7 @@
     "version": "0.1.0",
     "title": "Receive MQTT Broker Message",
     "description": "Simple MQTT Broker Trigger",
-    "homepage": "https://github.com/qingcloudhx/edge-contrib/tree/master/trigger/mqtt-broker",
+    "homepage": "https://github.com/qingcloudhx/flow-plugin/tree/master/trigger/mqtt-broker",
     "settings":[
       {
         "name": "port",
@@ -64,11 +64,6 @@
         "name": "keepAlive",
         "type": "int",
         "description": "Keep Alive Time in seconds"
-      },
-      {
-        "name": "token",
-        "type": "string",
-        "description": "The device token"
       },
       {
         "name": "sslConfig",
