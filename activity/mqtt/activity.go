@@ -60,6 +60,14 @@ func New(ctx activity.InitContext) (activity.Activity, error) {
 		return nil, token.Error()
 	}
 
+	if settings.Topic == "" {
+		if deviceId, thingId, err := parseToken(settings.Password); err != nil {
+			return nil, err
+		} else {
+			settings.Topic = buildUpTopic(deviceId, thingId)
+			ctx.Logger().Infof("mqtt topic:%s", settings.Topic)
+		}
+	}
 	act := &Activity{client: mqttClient, settings: settings}
 	return act, nil
 }
