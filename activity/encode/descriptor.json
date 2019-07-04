@@ -1,0 +1,30 @@
+{
+  "name": "flogo-encode",
+  "type": "flogo:activity",
+  "version": "0.9.0",
+  "title": "encode",
+  "description": "encode data",
+  "homepage": "https://github.com/github.com/qingcloudhx/flow-plugin/tree/master/activity/encode",
+  "settings": [
+  ],
+  "input":[
+    {
+      "name": "label",
+      "type": "string"
+    },
+    {
+      "name": "confidence",
+      "type": "double"
+    },
+    {
+      "name": "image",
+      "type": "string"
+    }
+  ],
+  "output": [
+    {
+      "name": "message",
+      "type": "string"
+    }
+  ]
+}
