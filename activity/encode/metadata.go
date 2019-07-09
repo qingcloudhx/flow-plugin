@@ -5,7 +5,7 @@ package encode
 * @Date: 19-7-4 上午11:29
  */
 import (
-	"github.com/qingcloudhx/flow-plugin/core/data/coerce"
+	"github.com/qingcloudhx/core/data/coerce"
 )
 
 type Input struct {

@@ -3,9 +3,9 @@ package encode
 import (
 	"encoding/json"
 	"github.com/pkg/errors"
-	"github.com/qingcloudhx/flow-plugin/core/activity"
-	"github.com/qingcloudhx/flow-plugin/core/data/coerce"
-	"github.com/qingcloudhx/flow-plugin/core/data/metadata"
+	"github.com/qingcloudhx/core/activity"
+	"github.com/qingcloudhx/core/data/coerce"
+	"github.com/qingcloudhx/core/data/metadata"
 	"time"
 )
 
