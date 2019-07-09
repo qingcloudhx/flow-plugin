@@ -1,10 +1,10 @@
 {
-  "name": "flogo-mqtt",
+  "name": "flogo-mqtts",
   "type": "flogo:activity",
   "version": "0.1.0",
   "title": "MQTT Activity",
   "description": "Send MQTT message",
-  "homepage": "https://qingcloud-flow/edge-contrib/tree/master/activity/mqtt",
+  "homepage": "https:/github.com/qingcloudhx/flow-plugin/tree/master/activity/mqtts",
   "settings": [
     {
       "name": "broker",
