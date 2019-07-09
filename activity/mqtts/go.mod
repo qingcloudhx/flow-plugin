@@ -1,4 +1,4 @@
-module qingcloud-flow/qingcloudhx/flow-plugin/activity/mqtt
+module qingcloud-flow/qingcloudhx/flow-plugin/activity/mqtts
 
 go 1.12
 
