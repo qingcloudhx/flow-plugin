@@ -31,7 +31,7 @@ func New(ctx activity.InitContext) (activity.Activity, error) {
 	if err != nil {
 		return nil, err
 	}
-
+	ctx.Logger().Infof("activity init")
 	options := initClientOption(ctx.Logger(), settings)
 
 	if strings.HasPrefix(settings.Broker, "ssl") {
@@ -67,6 +67,7 @@ func New(ctx activity.InitContext) (activity.Activity, error) {
 	mqttClient := mqtt.NewClient(options)
 
 	if token := mqttClient.Connect(); token.Wait() && token.Error() != nil {
+		ctx.Logger().Error(token.Error())
 		return nil, token.Error()
 	}
 
