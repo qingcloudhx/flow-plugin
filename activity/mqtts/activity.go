@@ -31,7 +31,7 @@ func New(ctx activity.InitContext) (activity.Activity, error) {
 	if err != nil {
 		return nil, err
 	}
-	ctx.Logger().Infof("activity init")
+	ctx.Logger().Infof("activity init setting:%+v", settings)
 	options := initClientOption(ctx.Logger(), settings)
 
 	if strings.HasPrefix(settings.Broker, "ssl") {
