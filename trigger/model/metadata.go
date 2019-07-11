@@ -7,9 +7,9 @@ import "github.com/qingcloudhx/core/data/coerce"
 * @Date: 19-6-27 上午10:54
  */
 type Settings struct {
-	Address string `md:"address,required"` // The network type
-	GroupId string `md:"GroupId"`          // Data delimiter for read and write
-	Topic   int    `md:"topic,required"`
+	//Address string `md:"address,required"` // The network type
+	//GroupId string `md:"GroupId"`          // Data delimiter for read and write
+	//Topic   int    `md:"topic,required"`
 }
 
 type HandlerSettings struct {

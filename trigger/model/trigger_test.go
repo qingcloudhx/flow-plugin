@@ -14,12 +14,9 @@ import (
 * @Date: 19-6-27 上午10:54
  */
 const testConfig string = `{
-	"id": "flogo-mdmp-trigger",
-	"ref": "qingcloud-flow/plugin/trigger/mdmp",
+	"id": "flogo-model-trigger",
+	"ref": "qingcloud-flow/plugin/trigger/model",
 	"settings": {
-      "address": "127.0.0.1:2379",
-	  "groupId": "127.0.0.1",
-      "topic": "8982"
 	},
 	"handlers": [
 	  {

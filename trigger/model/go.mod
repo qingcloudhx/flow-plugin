@@ -1,4 +1,4 @@
-module github.com/flow-plugin/trigger/mdmp
+module github.com/flow-plugin/trigger/model
 
 go 1.12
 

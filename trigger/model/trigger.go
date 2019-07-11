@@ -47,31 +47,9 @@ type Trigger struct {
 // Initialize initializes the trigger
 func (t *Trigger) Initialize(ctx trigger.InitContext) error {
 
-	//address := t.settings.Address
-	groupId := t.settings.GroupId
-	//topic := t.settings.Topic
 	t.handlers = ctx.GetHandlers()
 	t.logger = ctx.Logger()
 
-	if groupId == "" {
-
-	}
-	//opts := consumer.NewOptions()
-	//opts.GroupID = groupId
-	//opts.NSServer = address
-	//opts.MsgCnt = int32(mdmp_consumer_max)
-	//opts.MsgMode = consumer.PUSH
-	//opts.LogLevel = qmqlog.DEBUG
-	//t, err := cloudeventsqmq.NewConsumer(opts)
-	//if err != nil {
-	//	t.logger.Errorf("failed to create nats transport, %s", err.Error())
-	//	return nil
-	//}
-	//c, err := client.New(t)
-	//if err != nil {
-	//	t.logger.Errorf("failed to create client, %s", err.Error())
-	//	return nil
-	//}
 	return nil
 }
 
