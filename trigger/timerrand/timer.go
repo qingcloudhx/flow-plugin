@@ -117,7 +117,7 @@ func (t *Trigger) scheduleOnce(handler trigger.Handler, settings *HandlerSetting
 		t.logger.Debug("Executing \"Once\" timer trigger")
 		output := build(settings)
 		t.logger.Infof("out:%+v", output)
-		_, err := handler.Handle(context.Background(), output)
+		_, err := handler.Handle(context.Background(), output.ToMap())
 		if err != nil {
 			t.logger.Error("Error running handler: ", err.Error())
 		}
@@ -170,7 +170,7 @@ func (t *Trigger) scheduleRepeating(handler trigger.Handler, settings *HandlerSe
 		t.logger.Debug("Executing \"Repeating\" timer")
 		output := build(settings)
 		t.logger.Infof("out:%+v", output)
-		_, err := handler.Handle(context.Background(), output)
+		_, err := handler.Handle(context.Background(), output.ToMap())
 		if err != nil {
 			t.logger.Error("Error running handler: ", err.Error())
 		}
@@ -191,7 +191,7 @@ func (t *Trigger) scheduleRepeating(handler trigger.Handler, settings *HandlerSe
 			t.logger.Debug("Executing first run of repeating timer")
 			output := build(settings)
 			t.logger.Infof("out:%+v", output)
-			_, err := handler.Handle(context.Background(), output)
+			_, err := handler.Handle(context.Background(), output.ToMap())
 			if err != nil {
 				t.logger.Error("Error running handler: ", err.Error())
 			}
