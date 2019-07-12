@@ -2,6 +2,7 @@ package encode
 
 import (
 	"github.com/qingcloudhx/core/activity"
+	uuid "github.com/satori/go.uuid"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
@@ -16,4 +17,7 @@ func TestRegister(t *testing.T) {
 	act := activity.Get(ref)
 
 	assert.NotNil(t, act)
+}
+func TestUUID(t *testing.T) {
+	assert.NotNil(t, uuid.NewV4().String())
 }
