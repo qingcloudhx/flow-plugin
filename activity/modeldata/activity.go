@@ -2,7 +2,9 @@ package modeldata
 
 import (
 	"encoding/json"
+	"github.com/pkg/errors"
 	"github.com/qingcloudhx/core/activity"
+	"github.com/qingcloudhx/core/data/coerce"
 	"github.com/qingcloudhx/core/data/metadata"
 	uuid "github.com/satori/go.uuid"
 	"time"
@@ -55,26 +57,29 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 	}
 	//random
 	for _, v := range input.Device {
-		tmp := &ThingData{
-			Id:    v.Id,
-			Type:  v.Type,
-			Value: v.Value,
-			Time:  time.Now().Unix() * 1000,
+		if m, err := coerce.ToObject(v); err != nil {
+			return false, errors.New("input to obj error")
+		} else {
+			tmp := &ThingData{
+				Id:   m["id"].(string),
+				Type: m["type"].(string),
+				Time: time.Now().Unix() * 1000,
+			}
+			message.Params[m["name"].(string)] = tmp
+			ctx.Logger().Infof("eval:%+v", input)
+			output := &Output{}
+			result, err := json.Marshal(message)
+			if err != nil {
+				ctx.Logger().Error(err)
+				return false, err
+			}
+			output.Message = string(result)
+			output.Topic = buildUpTopic(input.ThingId, input.DeviceId)
+			err = ctx.SetOutputObject(output)
+			if err != nil {
+				return false, err
+			}
 		}
-		message.Params[v.Name] = tmp
-	}
-	ctx.Logger().Infof("eval:%+v", input)
-	output := &Output{}
-	result, err := json.Marshal(message)
-	if err != nil {
-		ctx.Logger().Error(err)
-		return false, err
-	}
-	output.Message = string(result)
-	output.Topic = buildUpTopic(input.ThingId, input.DeviceId)
-	err = ctx.SetOutputObject(output)
-	if err != nil {
-		return false, err
 	}
 	return true, nil
 }
