@@ -16,9 +16,9 @@ type DataModel struct {
 	Value interface{} `md:"value"`
 }
 type Input struct {
-	DeviceId string      `md:"deviceId"`
-	ThingId  string      `md:"thingId"`
-	Device   []DataModel `md:"device"`
+	DeviceId string        `md:"deviceId"`
+	ThingId  string        `md:"thingId"`
+	Device   []interface{} `md:"device"`
 }
 type Settings struct {
 	DeviceId string `md:"deviceId"`
@@ -36,7 +36,7 @@ func (i *Input) ToMap() map[string]interface{} {
 func (i *Input) FromMap(values map[string]interface{}) error {
 	var err error
 	if v, ok := values["device"]; ok {
-		if val, ok := v.([]DataModel); ok {
+		if val, ok := v.([]interface{}); ok {
 			i.Device = val
 		} else {
 			err = errors.New("input formMap error")

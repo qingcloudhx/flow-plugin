@@ -47,6 +47,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 	if err != nil {
 		return false, err
 	}
+	ctx.Logger().Infof("modeldata eval:%+v", input)
 	message := &ThingMsg{
 		Id:      uuid.NewV4().String(),
 		Version: "v1.1.0",
@@ -70,6 +71,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 		return false, err
 	}
 	output.Message = string(result)
+	output.Topic = buildUpTopic(input.ThingId, input.DeviceId)
 	err = ctx.SetOutputObject(output)
 	if err != nil {
 		return false, err
