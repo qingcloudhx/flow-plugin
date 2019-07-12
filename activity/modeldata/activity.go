@@ -61,11 +61,12 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 			return false, errors.New("input to obj error")
 		} else {
 			tmp := &ThingData{
-				Id:   m["id"].(string),
-				Type: m["type"].(string),
-				Time: time.Now().Unix() * 1000,
+				Id:    m["Id"].(string),
+				Type:  m["Type"].(string),
+				Value: m["Value"],
+				Time:  time.Now().Unix() * 1000,
 			}
-			message.Params[m["name"].(string)] = tmp
+			message.Params[m["Name"].(string)] = tmp
 			ctx.Logger().Infof("eval:%+v", input)
 			output := &Output{}
 			result, err := json.Marshal(message)
