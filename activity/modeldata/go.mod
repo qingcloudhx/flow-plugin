@@ -1,4 +1,4 @@
-module github.com/qingcloudhx/flow-plugin/activity/model
+module github.com/qingcloudhx/flow-plugin/activity/modeldata
 
 go 1.12
 

@@ -1,4 +1,4 @@
-package model
+package modeldata
 
 /**
 * @Author: hexing
