@@ -10,8 +10,8 @@ import (
 * @Date: 19-7-12 下午2:36
  */
 
-func build(settings *HandlerSettings) Output {
-	out := Output{
+func build(settings *HandlerSettings) *Output {
+	out := &Output{
 		DeviceId: settings.DeviceId,
 		ThingId:  settings.ThingId,
 	}
