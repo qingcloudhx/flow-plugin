@@ -6,6 +6,7 @@ import (
 	"github.com/qingcloudhx/core/activity"
 	"github.com/qingcloudhx/core/data/coerce"
 	"github.com/qingcloudhx/core/data/metadata"
+	"github.com/satori/go.uuid"
 	"time"
 )
 
@@ -73,7 +74,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 		output.Topic = buildHeartbeatTopic(a.devices[id].DeviceId, a.devices[id].ThingId)
 	case "data":
 		message := &ThingMsg{
-			Id:      "xxx",
+			Id:      uuid.NewV4().String(),
 			Version: a.Version,
 			Params:  make(map[string]*ThingData),
 		}

@@ -7,5 +7,6 @@ require (
 	github.com/eclipse/paho.mqtt.golang v1.2.0 // indirect
 	github.com/muesli/cache2go v0.0.0-20190609140403-5eb79359852d // indirect
 	github.com/qingcloudhx/core v1.0.1
+	github.com/satori/go.uuid v1.2.0 // indirect
 	github.com/stretchr/testify v1.3.0
 )
