@@ -13,14 +13,14 @@ type ThingData struct {
 }
 
 type Output struct {
-	Data     []interface{} `md:"data"` // The data pulled from the timer
+	Device   []interface{} `md:"device"` // The data pulled from the timer
 	DeviceId string        `md:"deviceId"`
 	ThingId  string        `md:"thingId"`
 }
 
 func (o *Output) ToMap() map[string]interface{} {
 	return map[string]interface{}{
-		"data":     o.Data,
+		"device":   o.Device,
 		"deviceId": o.DeviceId,
 		"thingId":  o.ThingId,
 	}
@@ -28,7 +28,7 @@ func (o *Output) ToMap() map[string]interface{} {
 
 func (o *Output) FromMap(values map[string]interface{}) error {
 	var err error
-	o.Data, err = coerce.ToArray(values["data"])
+	o.Device, err = coerce.ToArray(values["device"])
 	if v, ok := values["deviceId"]; ok {
 		o.DeviceId, err = coerce.ToString(v)
 	} else {
