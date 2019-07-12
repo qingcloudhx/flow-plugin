@@ -1,0 +1,59 @@
+{
+  "name": "flogo-encode",
+  "type": "flogo:activity",
+  "version": "0.9.0",
+  "title": "encode",
+  "description": "encode data",
+  "homepage": "https://github.com/prject-flogo/contrib/tree/master/activity/encode",
+  "settings": [
+    {
+      "name": "deviceIds",
+      "type": "object",
+      "required": true,
+      "description": "device ids"
+    },
+    {
+      "name": "eventId",
+      "type": "string",
+      "required": true,
+      "description": "event id"
+    },
+    {
+      "name": "version",
+      "type": "string",
+      "required": true,
+      "description": "device version"
+    }
+  ],
+  "input":[
+    {
+      "name": "label",
+      "type": "string"
+    },
+    {
+      "name": "confidence",
+      "type": "double"
+    },
+    {
+      "name": "image",
+      "type": "string"
+    },{
+      "name": "id",
+      "type": "integer"
+    },
+    {
+      "name": "type",
+      "type": "string"
+    }
+  ],
+  "output": [
+    {
+      "name": "message",
+      "type": "string"
+    },
+    {
+      "name": "topic",
+      "type": "string"
+    }
+  ]
+}
