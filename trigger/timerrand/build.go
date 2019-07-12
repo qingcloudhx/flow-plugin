@@ -34,7 +34,7 @@ func build(settings *HandlerSettings) *Output {
 			default:
 
 			}
-			out.Data = append(out.Data, s)
+			out.Device = append(out.Device, s)
 		}
 	}
 
