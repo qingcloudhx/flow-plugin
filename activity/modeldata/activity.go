@@ -67,20 +67,20 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 				Time:  time.Now().Unix() * 1000,
 			}
 			message.Params[m["Name"].(string)] = tmp
-			ctx.Logger().Infof("eval:%+v", input)
-			output := &Output{}
-			result, err := json.Marshal(message)
-			if err != nil {
-				ctx.Logger().Error(err)
-				return false, err
-			}
-			output.Message = string(result)
-			output.Topic = buildUpTopic(input.ThingId, input.DeviceId)
-			err = ctx.SetOutputObject(output)
-			if err != nil {
-				return false, err
-			}
 		}
 	}
+	output := &Output{}
+	result, err := json.Marshal(message)
+	if err != nil {
+		ctx.Logger().Error(err)
+		return false, err
+	}
+	output.Message = string(result)
+	output.Topic = buildUpTopic(input.ThingId, input.DeviceId)
+	err = ctx.SetOutputObject(output)
+	if err != nil {
+		return false, err
+	}
+	ctx.Logger().Infof("eval:%+v", input)
 	return true, nil
 }
