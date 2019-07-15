@@ -18,7 +18,7 @@ const (
 
 type DeviceHandler interface {
 	Up(data *Output) error
-	Down(data interface{}) error
+	Down(data *Output) error
 }
 type DeviceCon struct {
 	Channels map[string]DeviceHandler
@@ -83,19 +83,6 @@ func (d *Device) Up(data *Output) error {
 }
 
 //down msg
-func (d *Device) Down(data interface{}) error {
-	//logger := d.trigger.logger
-	//logger.Infof("[down] id:%s,thing:%s", d.id, d.thingId)
-	//switch v := data.(type) {
-	//case packet.Message:
-	//	pubMsg := packet.NewPublish()
-	//	pubMsg.Message = v
-	//	pubMsg.ID = packet.ID(uuid())
-	//	if err := d.client.Conn().Send(pubMsg, false); err != nil {
-	//		logger.Errorf("[down] client send fail:%s", err.Error())
-	//	}
-	//default:
-	//	logger.Errorf("device down data type error:%+v", v)
-	//}
+func (d *Device) Down(data *Output) error {
 	return nil
 }

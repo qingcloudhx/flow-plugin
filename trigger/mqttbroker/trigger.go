@@ -10,6 +10,7 @@ import (
 	"github.com/qingcloudhx/core/engine/channels"
 	"github.com/qingcloudhx/core/support/log"
 	"github.com/qingcloudhx/core/trigger"
+	"runtime"
 	"strings"
 )
 
@@ -143,10 +144,17 @@ func (t *Trigger) runServer(url string) error {
 	return nil
 }
 func (t *Trigger) onMessage(msg interface{}) {
+	defer func() {
+		if err := recover(); err != nil {
+			PrintStack()
+		}
+	}()
 	if v, ok := msg.(map[string]interface{}); ok {
-		if val, ok := v["id"]; ok {
-			if dev := t.deviceCon.Get(val.(string)); dev != nil {
-				t.logger.Infof("onMessage:%+v", msg)
+		if head, ok := v["head"]; ok {
+			if id, ok := head.(map[string]interface{})["id"].(string); ok {
+				if dev := t.deviceCon.Get(id); dev == nil {
+					//dev.Down()
+				}
 			}
 		}
 	} else {
@@ -172,4 +180,9 @@ func (t *Trigger) register() error {
 		}
 	}
 	return nil
+}
+func PrintStack() {
+	var buf [4096]byte
+	n := runtime.Stack(buf[:], false)
+	log.RootLogger().Errorf("panic ==> %s\n", string(buf[:n]))
 }
