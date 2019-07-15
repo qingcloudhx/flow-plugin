@@ -116,11 +116,12 @@ func (t *Trigger) runServer(url string) error {
 			t.logger.Infof("[%s] client recv event:%s", client.ID(), e)
 			if pkt != nil {
 				if v, ok := pkt.(*packet.Connect); ok {
-					dev := NewDevice(client.ID(), t)
+					t.logger.Infof("[%s] client create", v.ClientID)
+					dev := NewDevice(v.ClientID, t)
 					body := t.pool.Get()
 					defer t.pool.Put(body)
 					if _, err := v.Decode(body.Bytes()); err == nil {
-						data := buildPackage(buildHead(mqtt_cmd_connect, client.ID(), v.Username, v.Password), body.Bytes())
+						data := buildPackage(buildHead(mqtt_cmd_connect, v.ClientID, v.Username, v.Password), body.Bytes())
 						if err := dev.Up(data); err != nil {
 							t.logger.Errorf("dev up cmd;%s error:%s", mqtt_cmd_connect, err)
 						}
