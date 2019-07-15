@@ -48,6 +48,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 		data := make(map[string]interface{})
 		data["body"] = input.Body
 		head := make(map[string]interface{})
+		head["topic"] = "test"
 		for k, v := range input.Head {
 			head[k] = v
 		}

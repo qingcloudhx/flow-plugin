@@ -97,7 +97,7 @@ func (d *Device) Down(data interface{}) error {
 	}
 	Qos, err := coerce.ToInt(head[mqtt_qos])
 	if err != nil {
-		return err
+		Qos = 0
 	}
 	payload, err := coerce.ToBytes(message[mqtt_body])
 	if err != nil {
