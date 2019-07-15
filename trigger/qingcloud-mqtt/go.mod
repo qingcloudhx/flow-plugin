@@ -1,4 +1,4 @@
-module github.com/qingcloudhx/flow-plugin/trigger/mqttbroker
+module github.com/qingcloudhx/flow-plugin/trigger/qingcloud-mqtt
 
 go 1.12
 

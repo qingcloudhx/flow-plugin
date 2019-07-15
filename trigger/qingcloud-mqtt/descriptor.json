@@ -1,10 +1,10 @@
 {
-  "name": "flogo-mqttbroker-model",
-  "type": "flogo:mqttbroker",
+  "name": "flogo-qingcloud-mqtt",
+  "type": "flogo:mqtt broker",
   "version": "0.1.0",
   "title": "Timer",
   "description": "Simple mqtt broker trigger",
-  "homepage": "https://qingcloudhx/flow-plugin/tree/master/trigger/mqttbroker",
+  "homepage": "https://qingcloudhx/flow-plugin/tree/master/trigger/qingcloud-mqtt",
   "settings": [
     {
       "name": "address",

@@ -1,4 +1,4 @@
-package mqttbroker
+package qingcloud_mqtt
 
 import "github.com/qingcloudhx/core/data/coerce"
 
