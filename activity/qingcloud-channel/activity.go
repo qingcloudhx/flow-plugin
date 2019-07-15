@@ -43,9 +43,12 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 		ctx.Logger().Error(err)
 		return false, nil
 	}
-	ch := channels.Get(a.settings.Event)
-	ch.Publish(input)
-	ctx.Logger().Infof("head:%+v,body:%+v", input.Head, input.Body)
+	if ch := channels.Get(a.settings.Event); ch != nil {
+		ch.Publish(input)
+		ctx.Logger().Infof("channel publish head:%+v,body:%+v", input.Head, input.Body)
+	} else {
+		ctx.Logger().Infof("not find channel head:%+v,body:%+v", input.Head, input.Body)
+	}
 
 	return true, nil
 }
