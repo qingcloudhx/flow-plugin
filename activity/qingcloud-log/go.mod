@@ -1,4 +1,4 @@
-module github.com/qingcloudhx/flow-plugin/activity/qingcloud_log
+module github.com/qingcloudhx/flow-plugin/activity/qingcloud-log
 
 go 1.12
 
