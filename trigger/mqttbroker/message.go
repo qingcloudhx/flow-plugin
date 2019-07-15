@@ -11,6 +11,10 @@ const (
 	mqtt_cmd       = "cmd"
 	mqtt_username  = "username"
 	mqtt_password  = "password"
+	mqtt_topic     = "topic"
+	mqtt_qos       = "qos"
+	mqtt_head      = "head"
+	mqtt_body      = "body"
 )
 const (
 	mqtt_cmd_connecting = "connecting"

@@ -106,13 +106,14 @@ func (t *Trigger) runServer(url string) error {
 				if err := dev.Up(data); err != nil {
 					t.logger.Errorf("dev up cmd:%s error:%s", mqtt_cmd_connect, err)
 				}
+				t.deviceCon.Del(client.ID())
 			}
 		case broker.PacketReceived:
 			t.logger.Infof("[%s] client recv event:%s", client.ID(), e)
 			if pkt != nil {
 				if v, ok := pkt.(*packet.Connect); ok {
 					t.logger.Infof("[%s] client create data:%s", v.ClientID, v.String())
-					dev := NewDevice(v.ClientID, t)
+					dev := NewDevice(v.ClientID, client, t)
 					t.deviceCon.Set(v.ClientID, dev)
 					data := buildPackage(buildHead(mqtt_cmd_connect, v.ClientID, v.Username, v.Password), []byte{})
 					if err := dev.Up(data); err != nil {
@@ -150,10 +151,13 @@ func (t *Trigger) onMessage(msg interface{}) {
 		}
 	}()
 	if v, ok := msg.(map[string]interface{}); ok {
-		if head, ok := v["head"]; ok {
-			if id, ok := head.(map[string]interface{})["id"].(string); ok {
-				if dev := t.deviceCon.Get(id); dev == nil {
-					//dev.Down()
+		if head, ok := v[mqtt_head]; ok {
+			if id, ok := head.(map[string]interface{})[mqtt_client_id].(string); ok {
+				if dev := t.deviceCon.Get(id); dev != nil {
+					err := dev.Down(msg)
+					if err != nil {
+						t.logger.Errorf("down error:%s", err.Error())
+					}
 				}
 			}
 		}

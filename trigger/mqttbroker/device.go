@@ -2,6 +2,9 @@ package mqttbroker
 
 import (
 	"context"
+	"github.com/256dpi/gomqtt/broker"
+	"github.com/256dpi/gomqtt/packet"
+	"github.com/qingcloudhx/core/data/coerce"
 	"sync"
 )
 
@@ -9,16 +12,9 @@ import (
 * @Author: hexing
 * @Date: 19-6-28 下午3:23
  */
-const (
-	IOT_DEVICE_STATUS_END  = "iote-global-onoffline-end"
-	IOT_DEVICE_STATUS_EDGE = "iote-global-onoffline-edge"
-	DEVICE_STATUS_ONLINE   = "online"  // 在线
-	DEVICE_STATUS_OFFLINE  = "offline" // 离线
-)
-
 type DeviceHandler interface {
 	Up(data *Output) error
-	Down(data *Output) error
+	Down(data interface{}) error
 }
 type DeviceCon struct {
 	Channels map[string]DeviceHandler
@@ -56,13 +52,16 @@ func (dev *DeviceCon) Del(id string) DeviceHandler {
 type Device struct {
 	id      string
 	trigger *Trigger
+	client  *broker.Client
+	inc     packet.ID
 }
 
 //build
-func NewDevice(id string, trigger *Trigger) DeviceHandler {
+func NewDevice(id string, client *broker.Client, trigger *Trigger) DeviceHandler {
 	device := &Device{
 		id:      id,
 		trigger: trigger,
+		client:  client,
 	}
 	//reg up topic
 
@@ -83,6 +82,33 @@ func (d *Device) Up(data *Output) error {
 }
 
 //down msg
-func (d *Device) Down(data *Output) error {
-	return nil
+func (d *Device) Down(data interface{}) error {
+	message, err := coerce.ToObject(data)
+	if err != nil {
+		return err
+	}
+	head, err := coerce.ToObject(message[mqtt_head])
+	if err != nil {
+		return err
+	}
+	topic, err := coerce.ToString(head[mqtt_topic])
+	if err != nil {
+		return err
+	}
+	Qos, err := coerce.ToInt(head[mqtt_qos])
+	if err != nil {
+		return err
+	}
+	payload, err := coerce.ToBytes(message[mqtt_body])
+	if err != nil {
+		return err
+	}
+	reply := packet.NewPublish()
+	reply.Message.Topic = topic
+	reply.Message.Payload = payload
+	reply.Message.QOS = packet.QOS(Qos)
+	reply.ID = d.inc
+	reply.Dup = true
+	d.inc++
+	return d.client.Conn().Send(reply, false)
 }

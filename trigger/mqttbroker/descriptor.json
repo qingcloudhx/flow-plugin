@@ -32,5 +32,17 @@
       "type": "bytes",
       "description": "The message body"
     }
+  ],
+  "event": [
+    {
+      "name": "head",
+      "type": "object",
+      "description": "The event head"
+    },
+    {
+      "name": "body",
+      "type": "bytes",
+      "description": "The event body"
+    }
   ]
 }
