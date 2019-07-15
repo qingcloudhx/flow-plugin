@@ -150,6 +150,7 @@ func (t *Trigger) onMessage(msg interface{}) {
 			PrintStack()
 		}
 	}()
+	t.logger.Infof("onMessage:%+v", msg)
 	if v, ok := msg.(map[string]interface{}); ok {
 		if head, ok := v[mqtt_head]; ok {
 			if id, ok := head.(map[string]interface{})[mqtt_client_id].(string); ok {
