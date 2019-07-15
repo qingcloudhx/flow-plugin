@@ -6,7 +6,7 @@ import (
 	"github.com/qingcloudhx/core/activity"
 	"github.com/qingcloudhx/core/data/coerce"
 	"github.com/qingcloudhx/core/data/metadata"
-	"github.com/satori/go.uuid"
+	uuid "github.com/satori/go.uuid"
 	"time"
 )
 
@@ -74,53 +74,53 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 		output.Topic = buildHeartbeatTopic(a.devices[id].DeviceId, a.devices[id].ThingId)
 	case "data":
 		if exists(input.License) {
-			ctx.Logger().Infof("filter repeat licenseｓ:%s", input.License)
-			return false, errors.New("license fliter error")
-		}
-		add(input.License, 3*time.Second, input.License)
-		message := &ThingMsg{
-			Id:      uuid.NewV4().String(),
-			Version: a.Version,
-			Params:  make(map[string]*ThingData),
-		}
-		label := &ThingData{
-			Id:    "35",
-			Type:  "string",
-			Value: input.Label,
-			Time:  time.Now().Unix() * 1000,
-		}
-		message.Params["label"] = label
-		image := &ThingData{
-			Id:    "34",
-			Type:  "string",
-			Value: input.Image,
-			Time:  time.Now().Unix() * 1000,
-		}
-		message.Params["image"] = image
-		confidence := &ThingData{
-			Id:    "36",
-			Type:  "float",
-			Value: input.Confidence,
-		}
-		message.Params["confidence"] = confidence
+			ctx.Logger().Infof("filter repeat license:%s", input.License)
+		} else {
+			add(input.License, 3*time.Second, input.License)
+			message := &ThingMsg{
+				Id:      uuid.NewV4().String(),
+				Version: a.Version,
+				Params:  make(map[string]*ThingData),
+			}
+			label := &ThingData{
+				Id:    "35",
+				Type:  "string",
+				Value: input.Label,
+				Time:  time.Now().Unix() * 1000,
+			}
+			message.Params["label"] = label
+			image := &ThingData{
+				Id:    "34",
+				Type:  "string",
+				Value: input.Image,
+				Time:  time.Now().Unix() * 1000,
+			}
+			message.Params["image"] = image
+			confidence := &ThingData{
+				Id:    "36",
+				Type:  "float",
+				Value: input.Confidence,
+			}
+			message.Params["confidence"] = confidence
 
-		color := &ThingData{
-			Id:    "37",
-			Type:  "string",
-			Value: input.Color,
-		}
-		message.Params["color"] = color
-		license := &ThingData{
-			Id:    "38",
-			Type:  "string",
-			Value: input.License,
-		}
-		message.Params["license"] = license
+			color := &ThingData{
+				Id:    "37",
+				Type:  "string",
+				Value: input.Color,
+			}
+			message.Params["color"] = color
+			license := &ThingData{
+				Id:    "38",
+				Type:  "string",
+				Value: input.License,
+			}
+			message.Params["license"] = license
 
-		data, _ := json.Marshal(message)
-		output.Message = string(data)
-		output.Topic = buildUpTopic(a.devices[id].DeviceId, a.devices[id].ThingId, a.EventId)
-		ctx.Logger().Infof("encode:%s", data)
+			data, _ := json.Marshal(message)
+			output.Message = string(data)
+			output.Topic = buildUpTopic(a.devices[id].DeviceId, a.devices[id].ThingId, a.EventId)
+			ctx.Logger().Infof("encode:%s", data)
+		}
 	default:
 		ctx.Logger().Errorf("data error:%+v", input)
 		return false, nil

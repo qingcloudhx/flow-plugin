@@ -126,7 +126,10 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 		}
 		//add(data.DeviceId,15 * time.Second,data,func(key interface{}){})
 	} else {
-
+		if input.Topic == "" {
+			ctx.Logger().Infof("filter message")
+			return true, nil
+		}
 	}
 	ctx.Logger().Infof("[Activity] Eval  Topic:%s,Message:%s", input.Topic, input.Message.(string))
 	if token := a.client.Publish(input.Topic, byte(a.settings.Qos), true, input.Message); token.Wait() && token.Error() != nil {
