@@ -1,0 +1,43 @@
+{
+  "name": "flogo-channel-test",
+  "type": "flogo:activity",
+  "version": "0.9.0",
+  "title": "Log",
+  "description": "Logs a message",
+  "homepage": "https://qingcloud-flow/plugin/tree/master/activity/qingcloud_channel",
+  "settings": [
+    {
+      "name": "event",
+      "type": "string"
+    }
+  ],
+  "input":[
+    {
+      "name": "head",
+      "type": "object",
+      "properties": {
+        "cmd": {
+          "type": "string"
+        },
+        "clienId": {
+          "type": "string"
+        },
+        "poctocol": {
+          "type": "string"
+        },
+        "topic": {
+          "type": "string"
+        },
+        "qos": {
+          "type": "number"
+        }
+      },
+      "description": "The event head"
+    },
+    {
+      "name": "body",
+      "type": "bytes",
+      "description": "The event body"
+    }
+  ]
+}
