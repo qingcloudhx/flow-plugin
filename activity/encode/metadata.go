@@ -14,6 +14,8 @@ type Input struct {
 	Label      string  `md:"label"`      // The error message
 	Confidence float64 `md:"confidence"` // The error data
 	Image      string  `md:"image"`
+	License    string  `md:"license"`
+	Color      string  `md:"color"`
 }
 type Settings struct {
 	Devices []interface{} `md:"devices"`
@@ -28,6 +30,8 @@ func (i *Input) ToMap() map[string]interface{} {
 		"image":      i.Image,
 		"type":       i.Type,
 		"id":         i.Id,
+		"license":    i.License,
+		"color":      i.Color,
 	}
 }
 
@@ -73,6 +77,22 @@ func (i *Input) FromMap(values map[string]interface{}) error {
 		}
 	} else {
 		i.Id = 0
+	}
+	if v, ok := values["license"]; ok {
+		i.License, err = coerce.ToString(v)
+		if err != nil {
+			return err
+		}
+	} else {
+		i.License = ""
+	}
+	if v, ok := values["color"]; ok {
+		i.Color, err = coerce.ToString(v)
+		if err != nil {
+			return err
+		}
+	} else {
+		i.Color = ""
 	}
 	return nil
 }

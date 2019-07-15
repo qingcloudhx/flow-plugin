@@ -12,9 +12,13 @@ import (
 var cache *cache2go.CacheTable
 
 func init() {
-	cache = cache2go.Cache("iot")
+	cache = cache2go.Cache("iot-filter")
 }
-func add(key interface{}, time time.Duration, value interface{}, f func(key interface{})) {
-	res := cache.Add(key, time, value)
-	res.SetAboutToExpireCallback(f)
+func add(key interface{}, time time.Duration, value interface{}) {
+	cache.Add(key, time, value)
+	//cache.SetAboutToDeleteItemCallback(f)
+}
+
+func exists(key interface{}) bool {
+	return cache.Exists(key)
 }

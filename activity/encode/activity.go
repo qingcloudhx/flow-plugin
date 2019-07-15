@@ -73,6 +73,11 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 		output.Message = string(message)
 		output.Topic = buildHeartbeatTopic(a.devices[id].DeviceId, a.devices[id].ThingId)
 	case "data":
+		if exists(input.License) {
+			ctx.Logger().Infof("filter repeat licenseｓ:%s", input.License)
+			return false, errors.New("license fliter error")
+		}
+		add(input.License, 3*time.Second, input.License)
 		message := &ThingMsg{
 			Id:      uuid.NewV4().String(),
 			Version: a.Version,
@@ -98,6 +103,20 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 			Value: input.Confidence,
 		}
 		message.Params["confidence"] = confidence
+
+		color := &ThingData{
+			Id:    "37",
+			Type:  "string",
+			Value: input.Color,
+		}
+		message.Params["color"] = color
+		license := &ThingData{
+			Id:    "38",
+			Type:  "string",
+			Value: input.License,
+		}
+		message.Params["license"] = license
+
 		data, _ := json.Marshal(message)
 		output.Message = string(data)
 		output.Topic = buildUpTopic(a.devices[id].DeviceId, a.devices[id].ThingId, a.EventId)
