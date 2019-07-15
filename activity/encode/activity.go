@@ -104,13 +104,13 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 			message.Params["confidence"] = confidence
 
 			color := &ThingData{
-				Id:    "37",
+				Id:    "60",
 				Type:  "string",
 				Value: input.Color,
 			}
 			message.Params["color"] = color
 			license := &ThingData{
-				Id:    "38",
+				Id:    "61",
 				Type:  "string",
 				Value: input.License,
 			}
