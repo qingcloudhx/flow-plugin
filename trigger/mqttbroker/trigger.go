@@ -114,6 +114,7 @@ func (t *Trigger) runServer(url string) error {
 				if v, ok := pkt.(*packet.Connect); ok {
 					t.logger.Infof("[%s] client create data:%s", v.ClientID, v.String())
 					dev := NewDevice(v.ClientID, t)
+					t.deviceCon.Set(v.ClientID, dev)
 					data := buildPackage(buildHead(mqtt_cmd_connect, v.ClientID, v.Username, v.Password), []byte{})
 					if err := dev.Up(data); err != nil {
 						t.logger.Errorf("dev up cmd;%s error:%s", mqtt_cmd_connect, err)
