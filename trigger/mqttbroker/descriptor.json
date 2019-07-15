@@ -26,22 +26,20 @@
       "name": "head",
       "type": "object",
       "properties": {
-        "properties": {
-          "cmd": {
-            "type": "string"
-          },
-          "clieng-id": {
-            "type": "string"
-          },
-          "poctocol": {
-            "type": "string"
-          },
-          "username": {
-            "type": "string"
-          },
-          "password": {
-            "type": "string"
-          }
+        "cmd": {
+          "type": "string"
+        },
+        "clienId": {
+          "type": "string"
+        },
+        "poctocol": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
         }
       },
       "description": "The message head"
@@ -56,6 +54,23 @@
     {
       "name": "head",
       "type": "object",
+      "properties": {
+        "cmd": {
+          "type": "string"
+        },
+        "clienId": {
+          "type": "string"
+        },
+        "poctocol": {
+          "type": "string"
+        },
+        "topic": {
+          "type": "string"
+        },
+        "qos": {
+          "type": "number"
+        }
+      },
       "description": "The event head"
     },
     {

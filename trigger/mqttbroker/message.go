@@ -6,7 +6,7 @@ package mqttbroker
  */
 
 const (
-	mqtt_client_id = "client-id"
+	mqtt_client_id = "clienId"
 	mqtt_poctocol  = "poctocol"
 	mqtt_cmd       = "cmd"
 	mqtt_username  = "username"
