@@ -44,7 +44,14 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 		return false, nil
 	}
 	if ch := channels.Get(a.settings.Event); ch != nil {
-		ch.Publish(input)
+		data := make(map[string]interface{})
+		data["body"] = input.Body
+		head := make(map[string]interface{})
+		for k, v := range input.Head {
+			head[k] = v
+		}
+		data["head"] = head
+		ch.Publish(data)
 		ctx.Logger().Infof("channel publish head:%+v,body:%+v", input.Head, input.Body)
 	} else {
 		ctx.Logger().Infof("not find channel head:%+v,body:%+v", input.Head, input.Body)
