@@ -6,10 +6,31 @@
   "description": "Simple mqtt broker trigger",
   "homepage": "https://qingcloudhx/flow-plugin/tree/master/trigger/mqttbroker",
   "settings": [
-
+    {
+      "name": "address",
+      "type": "string",
+      "required": true,
+      "description": "The broker listener address(tcp://127.0.0.1:1883)"
+    },
+    {
+      "name": "event",
+      "type": "string",
+      "required": true,
+      "description": "The down of client event"
+    }
   ],
   "handler": {
   },
   "output": [
+    {
+      "name": "head",
+      "type": "object",
+      "description": "The message head"
+    },
+    {
+      "name": "body",
+      "type": "bytes",
+      "description": "The message body"
+    }
   ]
 }

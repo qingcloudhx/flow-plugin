@@ -1,4 +1,4 @@
-package mdmp
+package mqttbroker
 
 import (
 	"encoding/json"
@@ -15,8 +15,10 @@ import (
  */
 const testConfig string = `{
 	"id": "flogo-model-trigger",
-	"ref": "qingcloud-flow/plugin/trigger/model",
+	"ref": "qingcloud-flow/plugin/trigger/mqttbroker",
 	"settings": {
+		"url":"tcp:127.0.0.1:1083",
+		"event":"hehehe"
 	},
 	"handlers": [
 	  {

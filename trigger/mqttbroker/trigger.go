@@ -1,9 +1,16 @@
-package mdmp
+package mqttbroker
 
 import (
+	"errors"
+	"fmt"
+	"github.com/256dpi/gomqtt/broker"
+	"github.com/256dpi/gomqtt/packet"
+	"github.com/256dpi/gomqtt/transport"
 	"github.com/qingcloudhx/core/data/metadata"
+	"github.com/qingcloudhx/core/engine/channels"
 	"github.com/qingcloudhx/core/support/log"
 	"github.com/qingcloudhx/core/trigger"
+	"strings"
 )
 
 /**
@@ -38,9 +45,11 @@ func (*Factory) New(config *trigger.Config) (trigger.Trigger, error) {
 
 // Trigger is a mdmp trigger
 type Trigger struct {
-	settings *Settings
-	handlers []trigger.Handler
-	logger   log.Logger
+	settings  *Settings
+	handlers  []trigger.Handler
+	logger    log.Logger
+	deviceCon *DeviceCon
+	pool      *Pool
 	//Consumer client.Client //consumer data
 }
 
@@ -49,16 +58,126 @@ func (t *Trigger) Initialize(ctx trigger.InitContext) error {
 
 	t.handlers = ctx.GetHandlers()
 	t.logger = ctx.Logger()
-
+	//server
+	t.deviceCon = NewDeviceCon()
+	t.pool = NewPool(5, 4096)
 	return nil
 }
 
 // Start starts the kafka trigger
 func (t *Trigger) Start() error {
+	var err error
+	url := t.settings.Url
+	if err = t.runServer(url); err != nil {
+		t.logger.Errorf("runServer url:%s fail,err:%+v", url, err)
+		return err
+	} else {
+		t.logger.Infof("runServer listen url:%s", url)
+	}
+	if err = t.register(); err != nil {
+		t.logger.Errorf("register fail,err:%+v", err)
+	}
 	return nil
 }
 
 // Start starts the kafka trigger
 func (t *Trigger) Stop() error {
+	return nil
+}
+
+//run server
+func (t *Trigger) runServer(url string) error {
+	server, err := transport.Launch(url)
+	if err != nil {
+		return err
+	}
+	backend := broker.NewMemoryBackend()
+	backend.SessionQueueSize = 100
+	backend.Logger = func(e broker.LogEvent, client *broker.Client, pkt packet.Generic, msg *packet.Message, err error) {
+		switch e {
+		case broker.NewConnection:
+			t.logger.Infof("[%s] new connect event:%s", client.ID(), e)
+		case broker.LostConnection:
+			t.logger.Infof("[%s] lost connect event:%s", client.ID(), e)
+			fallthrough
+		case broker.ClientDisconnected:
+			t.logger.Infof("[%s] client lost event:%s", client.ID(), e)
+			if dev := t.deviceCon.Get(client.ID()); dev != nil {
+				body := t.pool.Get()
+				defer t.pool.Put(body)
+				if _, err := pkt.Decode(body.Bytes()); err == nil {
+					data := buildPackage(buildHead(mqtt_cmd_disconnect, client.ID(), "", ""), body.Bytes())
+					if err := dev.Up(data); err != nil {
+						t.logger.Errorf("dev up cmd:%s error:%s", mqtt_cmd_connect, err)
+					}
+				}
+			}
+		case broker.PacketReceived:
+			t.logger.Infof("[%s] client recv event:%s", client.ID(), e)
+			if pkt != nil {
+				if v, ok := pkt.(*packet.Connect); ok {
+					dev := NewDevice(client.ID(), t)
+					body := t.pool.Get()
+					defer t.pool.Put(body)
+					if _, err := v.Decode(body.Bytes()); err == nil {
+						data := buildPackage(buildHead(mqtt_cmd_connect, client.ID(), v.Username, v.Password), body.Bytes())
+						if err := dev.Up(data); err != nil {
+							t.logger.Errorf("dev up cmd;%s error:%s", mqtt_cmd_connect, err)
+						}
+					}
+				}
+			}
+		case broker.MessagePublished:
+			if msg != nil && msg.Payload != nil {
+				t.logger.Infof("[%s] up send topic:%s,recv:%s", client.ID(), msg.Topic, string(msg.Payload))
+				//id := parseTopic(msg.Topic)
+				if dev := t.deviceCon.Get(client.ID()); dev != nil {
+					data := buildPackage(buildHead(mqtt_cmd_data, client.ID(), "", ""), msg.Payload)
+					if err := dev.Up(data); err != nil {
+						t.logger.Errorf("dev up cmd:%s error:%s", mqtt_cmd_data, err)
+					}
+				}
+			}
+		case broker.MessageForwarded:
+			if msg != nil && msg.Payload != nil {
+				t.logger.Infof("[%s] forwarded topic:%s,recv:%s", client.ID(), msg.Topic, string(msg.Payload))
+			}
+		default:
+			t.logger.Infof("[%s] event:%s", client.ID(), e)
+		}
+	}
+	engine := broker.NewEngine(backend)
+	engine.Accept(server)
+	return nil
+}
+func (t *Trigger) onMessage(msg interface{}) {
+	if v, ok := msg.(map[string]interface{}); ok {
+		if val, ok := v["id"]; ok {
+			if dev := t.deviceCon.Get(val.(string)); dev != nil {
+				t.logger.Infof("onMessage:%+v", msg)
+			}
+		}
+	} else {
+		t.logger.Infof("result:%+v", msg)
+	}
+}
+
+//Register event
+func (t *Trigger) register() error {
+	event := t.settings.Event
+	t.logger.Infof("Started register event %s", event)
+	if event != "" {
+		e := strings.Split(event, ",")
+		for _, v := range e {
+			ch := channels.Get(v)
+			if ch == nil {
+				return errors.New(fmt.Sprintf("channels:%s not existed", v))
+			}
+			err := ch.RegisterCallback(t.onMessage)
+			if err != nil {
+				return errors.New(fmt.Sprintf("RegisterCallback error:%s", err.Error()))
+			}
+		}
+	}
 	return nil
 }

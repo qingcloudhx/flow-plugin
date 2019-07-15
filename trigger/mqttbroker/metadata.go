@@ -1,4 +1,4 @@
-package mdmp
+package mqttbroker
 
 import "github.com/qingcloudhx/core/data/coerce"
 
@@ -7,6 +7,8 @@ import "github.com/qingcloudhx/core/data/coerce"
 * @Date: 19-6-27 上午10:54
  */
 type Settings struct {
+	Url   string `md:"url,required"` // The broker URL
+	Event string `md:"event"`
 	//Address string `md:"address,required"` // The network type
 	//GroupId string `md:"GroupId"`          // Data delimiter for read and write
 	//Topic   int    `md:"topic,required"`
@@ -16,7 +18,8 @@ type HandlerSettings struct {
 }
 
 type Output struct {
-	Data string `md:"data"` // The data received from the connection
+	Head map[string]interface{} `md:"head"`
+	Body []byte                 `md:"body"`
 }
 
 type Reply struct {
@@ -25,18 +28,22 @@ type Reply struct {
 
 func (o *Output) ToMap() map[string]interface{} {
 	return map[string]interface{}{
-		"data": o.Data,
+		"head": o.Head,
+		"body": o.Body,
 	}
 }
 
 func (o *Output) FromMap(values map[string]interface{}) error {
 
 	var err error
-	o.Data, err = coerce.ToString(values["data"])
+	o.Body, err = coerce.ToBytes(values["body"])
 	if err != nil {
 		return err
 	}
-
+	o.Head, err = coerce.ToObject(values["id"])
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
