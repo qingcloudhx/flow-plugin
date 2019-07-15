@@ -25,6 +25,25 @@
     {
       "name": "head",
       "type": "object",
+      "properties": {
+        "properties": {
+          "cmd": {
+            "type": "string"
+          },
+          "clieng-id": {
+            "type": "string"
+          },
+          "poctocol": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
       "description": "The message head"
     },
     {

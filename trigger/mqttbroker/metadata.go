@@ -40,7 +40,7 @@ func (o *Output) FromMap(values map[string]interface{}) error {
 	if err != nil {
 		return err
 	}
-	o.Head, err = coerce.ToObject(values["id"])
+	o.Head, err = coerce.ToObject(values["head"])
 	if err != nil {
 		return err
 	}
