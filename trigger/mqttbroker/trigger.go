@@ -49,7 +49,6 @@ type Trigger struct {
 	handlers  []trigger.Handler
 	logger    log.Logger
 	deviceCon *DeviceCon
-	pool      *Pool
 	//Consumer client.Client //consumer data
 }
 
@@ -60,7 +59,6 @@ func (t *Trigger) Initialize(ctx trigger.InitContext) error {
 	t.logger = ctx.Logger()
 	//server
 	t.deviceCon = NewDeviceCon()
-	t.pool = NewPool(5, 4096)
 	return nil
 }
 
