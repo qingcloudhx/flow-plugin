@@ -136,7 +136,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 		ctx.Logger().Debugf("Error in publishing: %v", err)
 		return true, token.Error()
 	}
-	ctx.Logger().Debugf("Published Message Success: %s", input.Message.(string))
+	ctx.Logger().Infof("Published Message Success: %s", input.Message.(string))
 
 	return true, nil
 }
