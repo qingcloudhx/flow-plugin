@@ -100,6 +100,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 				Id:    "36",
 				Type:  "float",
 				Value: input.Confidence,
+				Time:  time.Now().Unix() * 1000,
 			}
 			message.Params["confidence"] = confidence
 
@@ -107,12 +108,14 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 				Id:    "60",
 				Type:  "string",
 				Value: input.Color,
+				Time:  time.Now().Unix() * 1000,
 			}
 			message.Params["color"] = color
 			license := &ThingData{
 				Id:    "61",
 				Type:  "string",
 				Value: input.License,
+				Time:  time.Now().Unix() * 1000,
 			}
 			message.Params["license"] = license
 
