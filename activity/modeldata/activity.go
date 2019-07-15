@@ -43,7 +43,6 @@ func (a *Activity) Metadata() *activity.Metadata {
 
 // Eval returns an error
 func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
-
 	input := &Input{}
 	err = ctx.GetInputObject(input)
 	if err != nil {
