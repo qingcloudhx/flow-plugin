@@ -1,4 +1,4 @@
-module github.com/qingcloudhx/flow-plugin/activity/qingcloud_channel
+module github.com/qingcloudhx/flow-plugin/activity/qingcloud-channel
 
 go 1.12
 
