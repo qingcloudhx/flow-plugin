@@ -90,13 +90,13 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 	if err != nil {
 		return true, err
 	}
-
+	ctx.Logger().Infof("eval:%+v", input)
 	if token := a.client.Publish(input.Topic, byte(a.settings.Qos), false, input.Message); token.Wait() && token.Error() != nil {
 		ctx.Logger().Debugf("Error in publishing: %v", err)
 		return true, token.Error()
 	}
 
-	ctx.Logger().Debugf("Published Message: %v", input.Message)
+	ctx.Logger().Infof("Published Message: %v", input.Message)
 
 	return true, nil
 }
