@@ -99,7 +99,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 	}
 	ctx.Logger().Infof("eval start:%+v", param)
 	if p, ok := param["params"]; ok {
-		p,_ := coerce.ToObject(p)
+		p, _ := coerce.ToObject(p)
 		if v, ok := p["dt"]; ok {
 			if val, ok := v.(map[string]interface{}); ok {
 				val["id"] = "78"
