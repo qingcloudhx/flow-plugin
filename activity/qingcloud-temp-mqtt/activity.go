@@ -106,7 +106,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 	power := make(map[string]interface{})
 	color["id"] = "73"
 	color["type"] = "float"
-	color["value"] = input.Color
+	color["value"] = 1
 	color["time"] = time.Now().Unix() * 1000
 	param["power"] = power
 
