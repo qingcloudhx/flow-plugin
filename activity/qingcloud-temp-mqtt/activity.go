@@ -98,14 +98,17 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 		return true, err
 	}
 	ctx.Logger().Infof("eval start:%+v", param)
-	if v, ok := param["dt"]; ok {
-		if v, ok := v.(map[string]interface{}); ok {
-			v["id"] = "78"
+	if p, ok := param["params"]; ok {
+		p,_ := coerce.ToObject(p)
+		if v, ok := p["dt"]; ok {
+			if val, ok := v.(map[string]interface{}); ok {
+				val["id"] = "78"
+			}
 		}
-	}
-	if v, ok := param["temperature"]; ok {
-		if v, ok := v.(map[string]interface{}); ok {
-			v["id"] = "79"
+		if v, ok := p["temperature"]; ok {
+			if val, ok := v.(map[string]interface{}); ok {
+				val["id"] = "79"
+			}
 		}
 	}
 	color := make(map[string]interface{})
