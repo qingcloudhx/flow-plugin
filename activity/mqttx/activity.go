@@ -108,7 +108,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 			data["params"] = params
 			label := make(map[string]interface{})
 			label["label"] = params
-			data["params"] = label["label"]
+			data["params"] = label
 			message, _ := json.Marshal(data)
 			ctx.Logger().Infof("[Activity] Eval  Topic:%s,Message:%s", input.Topic, string(message))
 			if token := a.client.Publish(a.settings.Topic, byte(a.settings.Qos), true, message); token.Wait() && token.Error() != nil {
@@ -127,7 +127,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 
 			image := make(map[string]interface{})
 			image["image"] = params
-			data["params"] = image["image"]
+			data["params"] = image
 			message, _ := json.Marshal(data)
 			ctx.Logger().Infof("[Activity] Eval  Topic:%s,Message:%s", input.Topic, string(message))
 			if token := a.client.Publish(a.settings.Topic, byte(a.settings.Qos), true, message); token.Wait() && token.Error() != nil {
@@ -145,7 +145,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 			data["version"] = "v1.0.0"
 			color := make(map[string]interface{})
 			color["color"] = params
-			data["params"] = color["color"]
+			data["params"] = color
 
 			message, _ := json.Marshal(data)
 			ctx.Logger().Infof("[Activity] Eval  Topic:%s,Message:%s", input.Topic, string(message))
@@ -164,7 +164,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 			data["version"] = "v1.0.0"
 			license := make(map[string]interface{})
 			license["license"] = params
-			data["params"] = license["license"]
+			data["params"] = license
 			message, _ := json.Marshal(data)
 			ctx.Logger().Infof("[Activity] Eval  Topic:%s,Message:%s", input.Topic, string(message))
 			if token := a.client.Publish(a.settings.Topic, byte(a.settings.Qos), true, message); token.Wait() && token.Error() != nil {
