@@ -3,10 +3,12 @@ package qingcloud_temp_mqtt
 import (
 	mqtt "github.com/eclipse/paho.mqtt.golang"
 	"github.com/qingcloudhx/core/activity"
+	"github.com/qingcloudhx/core/data/coerce"
 	"github.com/qingcloudhx/core/data/metadata"
 	"github.com/qingcloudhx/core/support/log"
 	"github.com/qingcloudhx/core/support/ssl"
 	"strings"
+	"time"
 )
 
 var activityMd = activity.ToMetadata(&Settings{}, &Input{}, &Output{})
@@ -90,12 +92,26 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 	if err != nil {
 		return true, err
 	}
-	//param,err := coerce.ToObject(input.Message)
-	//if err != nil {
-	//	return true, err
-	//}
-	ctx.Logger().Infof("eval:%+v", input.Message)
-	if token := a.client.Publish(a.settings.Topic, byte(a.settings.Qos), true, input.Message); token.Wait() && token.Error() != nil {
+	param, err := coerce.ToObject(input.Message)
+	if err != nil {
+		return true, err
+	}
+	color := make(map[string]interface{})
+	color["id"] = "73"
+	color["type"] = "string"
+	color["value"] = input.Color
+	color["time"] = time.Now().Unix() * 1000
+	param["color"] = color
+
+	power := make(map[string]interface{})
+	color["id"] = "73"
+	color["type"] = "float"
+	color["value"] = input.Color
+	color["time"] = time.Now().Unix() * 1000
+	param["power"] = power
+
+	ctx.Logger().Infof("eval:%+v", param)
+	if token := a.client.Publish(a.settings.Topic, byte(a.settings.Qos), true, param); token.Wait() && token.Error() != nil {
 		ctx.Logger().Debugf("Error in publishing: %v", err)
 		return true, token.Error()
 	}

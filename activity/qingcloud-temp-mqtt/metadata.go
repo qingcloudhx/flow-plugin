@@ -15,7 +15,8 @@ type Settings struct {
 }
 
 type Input struct {
-	Message interface{} `md:"message"` // The message to send
+	Message map[string]interface{} `md:"message"` // The message to send
+	Color   string                 `md:"color"`
 }
 
 type Output struct {
@@ -25,11 +26,13 @@ type Output struct {
 func (i *Input) ToMap() map[string]interface{} {
 	return map[string]interface{}{
 		"message": i.Message,
+		"color":   i.Color,
 	}
 }
 
 func (i *Input) FromMap(values map[string]interface{}) error {
 	i.Message, _ = coerce.ToObject(values["message"])
+	i.Color, _ = coerce.ToString(values["color"])
 	return nil
 }
 
