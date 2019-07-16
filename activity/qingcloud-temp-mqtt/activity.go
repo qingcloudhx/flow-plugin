@@ -8,6 +8,7 @@ import (
 	"github.com/qingcloudhx/core/data/metadata"
 	"github.com/qingcloudhx/core/support/log"
 	"github.com/qingcloudhx/core/support/ssl"
+	uuid "github.com/satori/go.uuid"
 	"strings"
 	"time"
 )
@@ -99,11 +100,28 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 	}
 	ctx.Logger().Infof("eval start:%+v", param)
 	if p, ok := param["params"]; ok {
+		params := make(map[string]interface{})
 		p, _ := coerce.ToObject(p)
 		if v, ok := p["dt"]; ok {
 			if val, ok := v.(map[string]interface{}); ok {
 				val["id"] = "78"
+				params["type"] = val["type"].(string)
+				params["value"] = val["value"]
 			}
+		}
+		params["id"] = "iotp-32f168bc-db95-4eef-851b-28cf1fd75712"
+		params["time"] = time.Now().Unix() * 1000
+		data := make(map[string]interface{})
+		data["id"] = uuid.NewV4().String()
+		data["version"] = "v1.0.0"
+		dt := make(map[string]interface{})
+		dt["dt"] = params
+		data["params"] = dt
+		message, _ := json.Marshal(data)
+		ctx.Logger().Infof("eval format:%+v", string(message))
+		if token := a.client.Publish("/sys/iott-bbeebd96-328e-4076-a59e-5a8341f5ab88/iotd-f6f1627e-ab18-49af-9d1c-88062ba44390/thing/event/property/post", byte(a.settings.Qos), true, message); token.Wait() && token.Error() != nil {
+			ctx.Logger().Debugf("Error in publishing: %v", err)
+			return true, token.Error()
 		}
 		if v, ok := p["temperature"]; ok {
 			if val, ok := v.(map[string]interface{}); ok {
