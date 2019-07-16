@@ -1,6 +1,7 @@
 package qingcloud_temp_mqtt
 
 import (
+	"encoding/json"
 	mqtt "github.com/eclipse/paho.mqtt.golang"
 	"github.com/qingcloudhx/core/activity"
 	"github.com/qingcloudhx/core/data/coerce"
@@ -96,6 +97,16 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 	if err != nil {
 		return true, err
 	}
+	if v, ok := param["dt"]; ok {
+		if v, ok := v.(map[string]interface{}); ok {
+			v["id"] = "74"
+		}
+	}
+	if v, ok := param["temperature"]; ok {
+		if v, ok := v.(map[string]interface{}); ok {
+			v["id"] = "75"
+		}
+	}
 	color := make(map[string]interface{})
 	color["id"] = "73"
 	color["type"] = "string"
@@ -104,14 +115,14 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 	param["color"] = color
 
 	power := make(map[string]interface{})
-	color["id"] = "73"
-	color["type"] = "float"
-	color["value"] = 1
-	color["time"] = time.Now().Unix() * 1000
+	power["id"] = "73"
+	power["type"] = "float"
+	power["value"] = 1
+	power["time"] = time.Now().Unix() * 1000
 	param["power"] = power
-
+	message,_ := json.Marshal(param)
 	ctx.Logger().Infof("eval:%+v", param)
-	if token := a.client.Publish(a.settings.Topic, byte(a.settings.Qos), true, param); token.Wait() && token.Error() != nil {
+	if token := a.client.Publish(a.settings.Topic, byte(a.settings.Qos), true, message); token.Wait() && token.Error() != nil {
 		ctx.Logger().Debugf("Error in publishing: %v", err)
 		return true, token.Error()
 	}

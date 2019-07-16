@@ -89,6 +89,11 @@
       "name": "message",
       "type": "object",
       "description": "The message to send"
+    },
+    {
+      "name": "color",
+      "type": "string",
+      "description": "The message to send"
     }
   ],
   "output": [
