@@ -95,7 +95,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 		return true, err
 	}
 	params := make(map[string]interface{})
-	if p, ok := input.Message["params"]; ok {
+	if p, ok := input.Message["Params"]; ok {
 		p, _ := coerce.ToObject(p)
 		if v, ok := p["label"]; ok {
 			params["id"] = v.(map[string]interface{})["id"].(string)
