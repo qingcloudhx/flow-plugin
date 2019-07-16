@@ -121,7 +121,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 	power["time"] = time.Now().Unix() * 1000
 	param["power"] = power
 	message, _ := json.Marshal(param)
-	ctx.Logger().Infof("eval:%+v", message)
+	ctx.Logger().Infof("eval:%+v", string(message))
 	if token := a.client.Publish(a.settings.Topic, byte(a.settings.Qos), true, message); token.Wait() && token.Error() != nil {
 		ctx.Logger().Debugf("Error in publishing: %v", err)
 		return true, token.Error()
