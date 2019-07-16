@@ -98,7 +98,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 	if p, ok := input.Message["Params"]; ok {
 		p, _ := coerce.ToObject(p)
 		if v, ok := p["label"]; ok {
-			params["id"] = v.(map[string]interface{})["id"].(string)
+			params["id"] = "iotp-d09d0818-d957-49b6-9f96-0942fc3dd889"
 			params["type"] = v.(map[string]interface{})["type"].(string)
 			params["value"] = v.(map[string]interface{})["value"]
 			params["time"] = time.Now().Unix() * 1000
@@ -116,27 +116,27 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 				return true, token.Error()
 			}
 		}
-		if v, ok := p["image"]; ok {
-			params["id"] = v.(map[string]interface{})["id"].(string)
-			params["type"] = v.(map[string]interface{})["type"].(string)
-			params["value"] = v.(map[string]interface{})["value"]
-			params["time"] = time.Now().Unix() * 1000
-			data := make(map[string]interface{})
-			data["id"] = uuid.NewV4().String()
-			data["version"] = "v1.0.0"
-
-			image := make(map[string]interface{})
-			image["image"] = params
-			data["params"] = image
-			message, _ := json.Marshal(data)
-			ctx.Logger().Infof("[Activity] Eval  Topic:%s,Message:%s", input.Topic, string(message))
-			if token := a.client.Publish(a.settings.Topic, byte(a.settings.Qos), true, message); token.Wait() && token.Error() != nil {
-				ctx.Logger().Debugf("Error in publishing: %v", err)
-				return true, token.Error()
-			}
-		}
+		//if v, ok := p["image"]; ok {
+		//	params["id"] = v.(map[string]interface{})["id"].(string)
+		//	params["type"] = v.(map[string]interface{})["type"].(string)
+		//	params["value"] = v.(map[string]interface{})["value"]
+		//	params["time"] = time.Now().Unix() * 1000
+		//	data := make(map[string]interface{})
+		//	data["id"] = uuid.NewV4().String()
+		//	data["version"] = "v1.0.0"
+		//
+		//	image := make(map[string]interface{})
+		//	image["image"] = params
+		//	data["params"] = image
+		//	message, _ := json.Marshal(data)
+		//	ctx.Logger().Infof("[Activity] Eval  Topic:%s,Message:%s", input.Topic, string(message))
+		//	if token := a.client.Publish(a.settings.Topic, byte(a.settings.Qos), true, message); token.Wait() && token.Error() != nil {
+		//		ctx.Logger().Debugf("Error in publishing: %v", err)
+		//		return true, token.Error()
+		//	}
+		//}
 		if v, ok := p["color"]; ok {
-			params["id"] = v.(map[string]interface{})["id"].(string)
+			params["id"] = "iotp-bb73a69f-03a0-4305-9897-45a8ddf95e76"
 			params["type"] = v.(map[string]interface{})["type"].(string)
 			params["value"] = v.(map[string]interface{})["value"]
 			params["time"] = time.Now().Unix() * 1000
@@ -155,7 +155,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 			}
 		}
 		if v, ok := p["license"]; ok {
-			params["id"] = v.(map[string]interface{})["id"].(string)
+			params["id"] = "iotp-f9c651bc-aeb3-47b1-b393-484558377eb8"
 			params["type"] = v.(map[string]interface{})["type"].(string)
 			params["value"] = v.(map[string]interface{})["value"]
 			params["time"] = time.Now().Unix() * 1000
