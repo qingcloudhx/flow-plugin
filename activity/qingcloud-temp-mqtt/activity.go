@@ -97,31 +97,32 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 	if err != nil {
 		return true, err
 	}
+	ctx.Logger().Infof("eval start:%+v", param)
 	if v, ok := param["dt"]; ok {
 		if v, ok := v.(map[string]interface{}); ok {
-			v["id"] = "74"
+			v["id"] = "78"
 		}
 	}
 	if v, ok := param["temperature"]; ok {
 		if v, ok := v.(map[string]interface{}); ok {
-			v["id"] = "75"
+			v["id"] = "79"
 		}
 	}
 	color := make(map[string]interface{})
-	color["id"] = "73"
+	color["id"] = "77"
 	color["type"] = "string"
 	color["value"] = input.Color
 	color["time"] = time.Now().Unix() * 1000
 	param["color"] = color
 
 	power := make(map[string]interface{})
-	power["id"] = "73"
+	power["id"] = "76"
 	power["type"] = "float"
 	power["value"] = 1
 	power["time"] = time.Now().Unix() * 1000
 	param["power"] = power
 	message, _ := json.Marshal(param)
-	ctx.Logger().Infof("eval:%+v", string(message))
+	ctx.Logger().Infof("eval format:%+v", string(message))
 	if token := a.client.Publish(a.settings.Topic, byte(a.settings.Qos), true, message); token.Wait() && token.Error() != nil {
 		ctx.Logger().Debugf("Error in publishing: %v", err)
 		return true, token.Error()
