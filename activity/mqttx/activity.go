@@ -108,7 +108,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 			data["params"] = params
 			message, _ := json.Marshal(data)
 			ctx.Logger().Infof("[Activity] Eval  Topic:%s,Message:%s", input.Topic, string(message))
-			if token := a.client.Publish(input.Topic, byte(a.settings.Qos), true, message); token.Wait() && token.Error() != nil {
+			if token := a.client.Publish(a.settings.Topic, byte(a.settings.Qos), true, message); token.Wait() && token.Error() != nil {
 				ctx.Logger().Debugf("Error in publishing: %v", err)
 				return true, token.Error()
 			}
@@ -124,7 +124,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 			data["params"] = params
 			message, _ := json.Marshal(data)
 			ctx.Logger().Infof("[Activity] Eval  Topic:%s,Message:%s", input.Topic, string(message))
-			if token := a.client.Publish(input.Topic, byte(a.settings.Qos), true, message); token.Wait() && token.Error() != nil {
+			if token := a.client.Publish(a.settings.Topic, byte(a.settings.Qos), true, message); token.Wait() && token.Error() != nil {
 				ctx.Logger().Debugf("Error in publishing: %v", err)
 				return true, token.Error()
 			}
@@ -140,7 +140,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 			data["params"] = params
 			message, _ := json.Marshal(data)
 			ctx.Logger().Infof("[Activity] Eval  Topic:%s,Message:%s", input.Topic, string(message))
-			if token := a.client.Publish(input.Topic, byte(a.settings.Qos), true, message); token.Wait() && token.Error() != nil {
+			if token := a.client.Publish(a.settings.Topic, byte(a.settings.Qos), true, message); token.Wait() && token.Error() != nil {
 				ctx.Logger().Debugf("Error in publishing: %v", err)
 				return true, token.Error()
 			}
