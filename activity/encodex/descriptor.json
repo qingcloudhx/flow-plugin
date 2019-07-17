@@ -24,10 +24,22 @@
       "required": true,
       "description": "device version"
     },{
-      "name": "mappings",
+      "name": "eventMappings",
       "type": "object",
       "required": true,
-      "description": "device mappings"
+      "description": "device event mappings"
+    },
+    {
+      "name": "propertyMappings",
+      "type": "object",
+      "required": true,
+      "description": "device property mappings"
+    },
+    {
+      "name": "addMappings",
+      "type": "object",
+      "required": true,
+      "description": "device property mappings"
     }
   ],
   "input":[
