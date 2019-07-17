@@ -127,6 +127,15 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 					}
 				})
 			} else {
+				add(data.DeviceId, 15*time.Second, data, func(item *cache2go.CacheItem) {
+					data.Status = DEVICE_STATUS_OFFLINE
+					out, _ := json.Marshal(data)
+					if token := a.client.Publish(topic, byte(a.settings.Qos), true, out); token.Wait() && token.Error() != nil {
+						ctx.Logger().Debugf("Error in publishing: %v", err)
+					} else {
+						ctx.Logger().Debugf("Published Topic:%s, Message: %s", topic, string(out))
+					}
+				})
 				ctx.Logger().Debugf("Recv Heartbeat Topic:%s,Message:%s", topic, message)
 				return true, nil
 			}
