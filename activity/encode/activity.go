@@ -119,6 +119,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 			//todo property
 			message["id"] = uuid.NewV4().String()
 			message["version"] = "v1.0.1"
+			params = make(map[string]interface{})
 			params, err = buildMessage(input.ToMap(), a.PrppertyMappings)
 			if err != nil {
 				ctx.Logger().Errorf("buildMessage fail:%s", err.Error())
