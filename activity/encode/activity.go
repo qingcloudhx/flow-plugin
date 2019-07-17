@@ -34,7 +34,7 @@ func New(ctx activity.InitContext) (activity.Activity, error) {
 		dev.ThingId = m["thingId"].(string)
 		devices = append(devices, dev)
 	}
-	act := &Activity{devices: devices, EventId: settings.EventId, Version: settings.Version, Mappings: settings.Mappings}
+	act := &Activity{devices: devices, EventId: settings.EventId, Version: settings.Version, Mappings: settings.Mappings, Type: settings.EventType}
 	return act, nil
 }
 
@@ -46,6 +46,7 @@ type Activity struct {
 	EventId  string `json:"eventId"`
 	Version  string `json:"version"`
 	Mappings map[string]interface{}
+	Type     string
 }
 
 // Metadata returns the activity's metadata
@@ -148,7 +149,11 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 
 			data, _ := json.Marshal(message)
 			output.Message = string(data)
-			output.Topic = buildUpTopic(a.devices[id].DeviceId, a.devices[id].ThingId, a.EventId)
+			if a.Type == "property" {
+				output.Topic = buildUpPropertyTopic(a.devices[id].DeviceId, a.devices[id].ThingId, a.EventId)
+			} else {
+				output.Topic = buildUpTopic(a.devices[id].DeviceId, a.devices[id].ThingId, a.EventId)
+			}
 			ctx.Logger().Infof("encode:%s", data)
 		}
 	default:
