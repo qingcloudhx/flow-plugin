@@ -18,11 +18,11 @@ type Input struct {
 	Color      string  `md:"color"`
 }
 type Settings struct {
-	Devices   []interface{}          `md:"devices"`
-	EventId   string                 `md:"eventId"`
-	Version   string                 `md:"version"`
-	EventType string                 `md:"type"`
-	Mappings  map[string]interface{} `md:"mappings"`
+	Devices          []interface{}          `md:"devices"`
+	EventId          string                 `md:"eventId"`
+	Version          string                 `md:"version"`
+	EventMappings    map[string]interface{} `md:"eventMappings"`
+	PropertyMappings map[string]interface{} `md:"propertyMappings"`
 }
 
 func (i *Input) ToMap() map[string]interface{} {
@@ -31,7 +31,7 @@ func (i *Input) ToMap() map[string]interface{} {
 		"confidence": i.Confidence,
 		"image":      i.Image,
 		"type":       i.Type,
-		"id":         i.Id,
+		"camera":     i.Id,
 		"license":    i.License,
 		"color":      i.Color,
 	}

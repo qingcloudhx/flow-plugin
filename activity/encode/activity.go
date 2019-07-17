@@ -33,7 +33,7 @@ func New(ctx activity.InitContext) (activity.Activity, error) {
 		dev.ThingId = m["thingId"].(string)
 		devices = append(devices, dev)
 	}
-	act := &Activity{devices: devices, EventId: settings.EventId, Version: settings.Version, Mappings: settings.Mappings, Type: settings.EventType}
+	act := &Activity{devices: devices, EventId: settings.EventId, Version: settings.Version, EventMappings: settings.EventMappings, PrppertyMappings: settings.PropertyMappings}
 	return act, nil
 }
 
@@ -41,11 +41,12 @@ func New(ctx activity.InitContext) (activity.Activity, error) {
 // inputs : {message,data}
 // outputs: node
 type Activity struct {
-	devices  []*DeviceInfo
-	EventId  string `json:"eventId"`
-	Version  string `json:"version"`
-	Mappings map[string]interface{}
-	Type     string
+	devices          []*DeviceInfo
+	EventId          string `json:"eventId"`
+	Version          string `json:"version"`
+	EventMappings    map[string]interface{}
+	PrppertyMappings map[string]interface{}
+	Type             string
 }
 
 // Metadata returns the activity's metadata
@@ -90,7 +91,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 			message := make(map[string]interface{}, 0)
 			message["id"] = uuid.NewV4().String()
 			message["version"] = "v1.0.1"
-			params, err := buildMessage(input.ToMap(), a.Mappings)
+			params, err := buildMessage(input.ToMap(), a.EventMappings)
 			if err != nil {
 				ctx.Logger().Errorf("buildMessage fail:%s", err.Error())
 				return false, err
@@ -111,13 +112,21 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 			//data, _ := json.Marshal(message)
 			msg := make(map[string]interface{})
 			msg["message"] = message
-			if a.Type == "property" {
-				msg["topic"] = buildUpPropertyTopic(a.devices[id].DeviceId, a.devices[id].ThingId, a.EventId)
-				ctx.Logger().Infof("[property] topic:%s,encode:%+v", msg["topic"], message)
-			} else {
-				msg["topic"] = buildUpTopic(a.devices[id].DeviceId, a.devices[id].ThingId, a.EventId)
-				ctx.Logger().Infof("[event] topic:%s,encode:%+v", msg["topic"], message)
+			msg["topic"] = buildUpTopic(a.devices[id].DeviceId, a.devices[id].ThingId, a.EventId)
+			ctx.Logger().Infof("[event] topic:%s,encode:%+v", msg["topic"], message)
+			output.Data = append(output.Data, msg)
+
+			//todo property
+			message["id"] = uuid.NewV4().String()
+			message["version"] = "v1.0.1"
+			params, err = buildMessage(input.ToMap(), a.PrppertyMappings)
+			if err != nil {
+				ctx.Logger().Errorf("buildMessage fail:%s", err.Error())
+				return false, err
 			}
+			msg["message"] = message
+			msg["topic"] = buildUpPropertyTopic(a.devices[id].DeviceId, a.devices[id].ThingId, a.EventId)
+			ctx.Logger().Infof("[property] topic:%s,encode:%+v", msg["topic"], message)
 			output.Data = append(output.Data, msg)
 		}
 	default:
