@@ -117,18 +117,21 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 			output.Data = append(output.Data, msg)
 
 			//todo property
-			message["id"] = uuid.NewV4().String()
-			message["version"] = "v1.0.1"
-			params = make(map[string]interface{})
-			params, err = buildMessage(input.ToMap(), a.PrppertyMappings)
+			pmessage := make(map[string]interface{})
+			pmessage["id"] = uuid.NewV4().String()
+			pmessage["version"] = "v1.0.1"
+			pparams := make(map[string]interface{})
+			pparams, err = buildMessage(input.ToMap(), a.PrppertyMappings)
 			if err != nil {
 				ctx.Logger().Errorf("buildMessage fail:%s", err.Error())
 				return false, err
 			}
-			msg["message"] = message
-			msg["topic"] = buildUpPropertyTopic(a.devices[id].DeviceId, a.devices[id].ThingId, a.EventId)
-			ctx.Logger().Infof("[property] topic:%s,encode:%+v", msg["topic"], message)
-			output.Data = append(output.Data, msg)
+			pmessage["params"] = pparams
+			pmsg := make(map[string]interface{})
+			pmsg["message"] = pmessage
+			pmsg["topic"] = buildUpPropertyTopic(a.devices[id].DeviceId, a.devices[id].ThingId, a.EventId)
+			ctx.Logger().Infof("[property] topic:%s,encode:%+v", pmsg["topic"], pmessage)
+			output.Data = append(output.Data, pmsg)
 		}
 	default:
 		ctx.Logger().Errorf("data error:%+v", input)
