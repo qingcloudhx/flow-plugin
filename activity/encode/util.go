@@ -47,7 +47,7 @@ var bucket *qs.Bucket
 func init() {
 	configuration, _ := config.New("LCZPYVBDRWGFQYNTLLHF", "nptZQsUpqc7UIdjqgjrL1GXSbapKTkNGsAPjPr1z")
 	qsService, _ := qs.Init(configuration)
-	bucket, _ = qsService.Bucket("facetest", "pek3a")
+	bucket, _ = qsService.Bucket("facetest", "pek3b")
 	//putBucketOutput, _ := bucket.Put()
 }
 func getPictureUrl(path string, logger log.Logger) string {
