@@ -7,7 +7,6 @@ import (
 	"github.com/qingcloudhx/core/data/coerce"
 	"github.com/qingcloudhx/core/data/metadata"
 	uuid "github.com/satori/go.uuid"
-	"golang.org/x/text/internal"
 	"time"
 )
 
@@ -35,7 +34,7 @@ func New(ctx activity.InitContext) (activity.Activity, error) {
 		dev.ThingId = m["thingId"].(string)
 		devices = append(devices, dev)
 	}
-	act := &Activity{devices: devices, EventId: settings.EventId, Version: settings.Version}
+	act := &Activity{devices: devices, EventId: settings.EventId, Version: settings.Version, Mappings: settings.Mappings}
 	return act, nil
 }
 
@@ -43,9 +42,10 @@ func New(ctx activity.InitContext) (activity.Activity, error) {
 // inputs : {message,data}
 // outputs: node
 type Activity struct {
-	devices []*DeviceInfo
-	EventId string `json:"eventId"`
-	Version string `json:"version"`
+	devices  []*DeviceInfo
+	EventId  string `json:"eventId"`
+	Version  string `json:"version"`
+	Mappings map[string]interface{}
 }
 
 // Metadata returns the activity's metadata
@@ -86,49 +86,54 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 			message := make(map[string]interface{}, 0)
 			message["id"] = uuid.NewV4().String()
 			message["version"] = "v1.0.1"
-			params := make(map[string]interface{})
-			label := &ThingData{
-				Id:    "35",
-				Type:  "string",
-				Value: input.Label,
-				Time:  time.Now().Unix() * 1000,
+			params, err := buildMessage(input.ToMap(), a.Mappings)
+			if err != nil {
+				ctx.Logger().Errorf("buildMessage fail:%s", err.Error())
+				return false, err
 			}
-			message.Params["label"] = label
-			image := &ThingData{
-				Id:    "34",
-				Type:  "string",
-				Value: input.Image,
-				Time:  time.Now().Unix() * 1000,
-			}
-			if url := getPictureUrl(input.Image, ctx.Logger()); url == "" {
-				ctx.Logger().Errorf("getPictureUrl image:%s", input.Image)
-				return false, nil
-			} else {
-				image.Value = url
-			}
-			message.Params["image"] = image
-			confidence := &ThingData{
-				Id:    "36",
-				Type:  "float",
-				Value: input.Confidence,
-				Time:  time.Now().Unix() * 1000,
-			}
-			message.Params["confidence"] = confidence
-
-			color := &ThingData{
-				Id:    "60",
-				Type:  "string",
-				Value: input.Color,
-				Time:  time.Now().Unix() * 1000,
-			}
-			message.Params["color"] = color
-			license := &ThingData{
-				Id:    "61",
-				Type:  "string",
-				Value: input.License,
-				Time:  time.Now().Unix() * 1000,
-			}
-			message.Params["license"] = license
+			message["params"] = params
+			//label := &ThingData{
+			//	Id:    "35",
+			//	Type:  "string",
+			//	Value: input.Label,
+			//	Time:  time.Now().Unix() * 1000,
+			//}
+			//message.Params["label"] = label
+			//image := &ThingData{
+			//	Id:    "34",
+			//	Type:  "string",
+			//	Value: input.Image,
+			//	Time:  time.Now().Unix() * 1000,
+			//}
+			//if url := getPictureUrl(input.Image, ctx.Logger()); url == "" {
+			//	ctx.Logger().Errorf("getPictureUrl image:%s", input.Image)
+			//	return false, nil
+			//} else {
+			//	image.Value = url
+			//}
+			//message.Params["image"] = image
+			//confidence := &ThingData{
+			//	Id:    "36",
+			//	Type:  "float",
+			//	Value: input.Confidence,
+			//	Time:  time.Now().Unix() * 1000,
+			//}
+			//message.Params["confidence"] = confidence
+			//
+			//color := &ThingData{
+			//	Id:    "60",
+			//	Type:  "string",
+			//	Value: input.Color,
+			//	Time:  time.Now().Unix() * 1000,
+			//}
+			//message.Params["color"] = color
+			//license := &ThingData{
+			//	Id:    "61",
+			//	Type:  "string",
+			//	Value: input.License,
+			//	Time:  time.Now().Unix() * 1000,
+			//}
+			//message.Params["license"] = license
 
 			data, _ := json.Marshal(message)
 			output.Message = string(data)

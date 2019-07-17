@@ -3,6 +3,8 @@ package encode
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/qingcloudhx/core/data"
+	"github.com/qingcloudhx/core/data/coerce"
 	"github.com/yunify/qingstor-sdk-go/config"
 	//qsErrors "github.com/yunify/qingstor-sdk-go/request/errors"
 	"github.com/qingcloudhx/core/support/log"
@@ -40,6 +42,41 @@ func buildUpTopic(id, thingId, eventId string) string {
 
 func buildHeartbeatTopic(id, thingId string) string {
 	return fmt.Sprintf("/as/mqtt/status/%s/%s", thingId, id)
+}
+func buildMessage(message map[string]interface{}, mappings map[string]interface{}) (map[string]interface{}, error) {
+	params := make(map[string]interface{})
+	for k, v := range mappings {
+		if val, ok := message[k]; ok {
+			obj, err := coerce.ToObject(v)
+			if err != nil {
+				return nil, err
+			}
+			if params[k] == nil {
+				params[k] = make(map[string]interface{})
+			}
+			params[k].(map[string]interface{})["id"] = obj["id"]
+			params[k].(map[string]interface{})["type"] = obj["type"]
+			value, err := coerce.ToType(val, toType(obj["type"]))
+			if err != nil {
+				return nil, err
+			}
+			params[k].(map[string]interface{})["value"] = value
+			params[k].(map[string]interface{})["time"] = time.Now().Unix() * 1000
+		}
+	}
+	return params, nil
+}
+func toType(t interface{}) data.Type {
+	tp, _ := t.(string)
+	switch tp {
+	case "float":
+		return data.TypeFloat64
+	case "int32":
+		return data.TypeInt32
+	case "string":
+		return data.TypeString
+	}
+	return data.TypeAny
 }
 
 var bucket *qs.Bucket

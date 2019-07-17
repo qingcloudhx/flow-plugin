@@ -23,6 +23,11 @@
       "type": "string",
       "required": true,
       "description": "device version"
+    },{
+      "name": "mappings",
+      "type": "object",
+      "required": true,
+      "description": "device mappings"
     }
   ],
   "input":[
