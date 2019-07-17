@@ -154,7 +154,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 			} else {
 				output.Topic = buildUpTopic(a.devices[id].DeviceId, a.devices[id].ThingId, a.EventId)
 			}
-			ctx.Logger().Infof("encode:%s", data)
+			ctx.Logger().Infof("topic:%s,encode:%s", output.Topic, data)
 		}
 	default:
 		ctx.Logger().Errorf("data error:%+v", input)
