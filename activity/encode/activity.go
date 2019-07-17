@@ -95,6 +95,12 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 				Value: input.Image,
 				Time:  time.Now().Unix() * 1000,
 			}
+			if url := getPictureUrl(input.Image, ctx.Logger()); url == "" {
+				ctx.Logger().Errorf("getPictureUrl image:%s", input.Image)
+				return false, nil
+			} else {
+				image.Value = url
+			}
 			message.Params["image"] = image
 			confidence := &ThingData{
 				Id:    "36",

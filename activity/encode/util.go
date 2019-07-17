@@ -3,6 +3,12 @@ package encode
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/yunify/qingstor-sdk-go/config"
+	//qsErrors "github.com/yunify/qingstor-sdk-go/request/errors"
+	"github.com/qingcloudhx/core/support/log"
+	qs "github.com/yunify/qingstor-sdk-go/service"
+	"os"
+	"strconv"
 	"time"
 )
 
@@ -34,4 +40,40 @@ func buildUpTopic(id, thingId, eventId string) string {
 
 func buildHeartbeatTopic(id, thingId string) string {
 	return fmt.Sprintf("/as/mqtt/status/%s/%s", thingId, id)
+}
+
+var bucket *qs.Bucket
+
+func init() {
+	configuration, _ := config.New("LCZPYVBDRWGFQYNTLLHF", "nptZQsUpqc7UIdjqgjrL1GXSbapKTkNGsAPjPr1z")
+	qsService, _ := qs.Init(configuration)
+	bucket, _ = qsService.Bucket("facetest", "pek3a")
+	//putBucketOutput, _ := bucket.Put()
+}
+func getPictureUrl(path string, logger log.Logger) string {
+	// Open file
+	//if file, err := os.Open(path); err != nil {
+	//	panic(err)
+	//}
+	file, err := os.Open(path)
+	if err != nil {
+		logger.Errorf("open fail err:%s", err.Error())
+		return ""
+	}
+	defer file.Close()
+
+	// Put object
+	name := "ai-" + strconv.FormatUint(uint64(time.Now().Unix()), 10) + ".jpg"
+	oOutput, err := bucket.PutObject(name, &qs.PutObjectInput{Body: file})
+	// 所有 >= 400 的 HTTP 返回码都被视作错误
+	if err != nil {
+		// Example: QingStor Error: StatusCode 403, Code "permission_denied"...
+		logger.Errorf("PutObject fail err:%s", err.Error())
+		return ""
+	} else {
+		// Print the HTTP status code.
+		// Example: 201
+		logger.Infof("up success code:%d", qs.IntValue(oOutput.StatusCode))
+		return fmt.Sprintf("https://facetest.pek3b.qingstor.com/%s", name)
+	}
 }
