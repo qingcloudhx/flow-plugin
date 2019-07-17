@@ -5,6 +5,7 @@ import (
 	mqtt "github.com/eclipse/paho.mqtt.golang"
 	"github.com/muesli/cache2go"
 	"github.com/qingcloudhx/core/activity"
+	"github.com/qingcloudhx/core/data/coerce"
 	"github.com/qingcloudhx/core/data/metadata"
 	"github.com/qingcloudhx/core/support/log"
 	"github.com/qingcloudhx/core/support/ssl"
@@ -101,42 +102,49 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 	if err != nil {
 		return true, err
 	}
-	if input.Type == "heartbeat" {
-		data := &DeviceUpStatusMsg{}
-		//decodeBytes, err := base64.StdEncoding.DecodeString(input.Message.(string))
-		err = json.Unmarshal([]byte(input.Message.(string)), data)
-		if err != nil {
-			ctx.Logger().Errorf("Unmarshal error Message: %s", input.Message.(string))
-			return false, nil
-		}
-		if _, err := get(data.DeviceId); err != nil {
-			add(data.DeviceId, 15*time.Second, data, func(item *cache2go.CacheItem) {
-				data.Status = DEVICE_STATUS_OFFLINE
-				out, _ := json.Marshal(data)
-				input.Message = out
-				if token := a.client.Publish(input.Topic, byte(a.settings.Qos), true, input.Message); token.Wait() && token.Error() != nil {
-					ctx.Logger().Debugf("Error in publishing: %v", err)
-				} else {
-					ctx.Logger().Debugf("Published Topic:%s, Message: %s", input.Topic, string(out))
-				}
-			})
+	//heartbeat string
+	//data map
+	for _, v := range input.Data {
+		object, _ := coerce.ToObject(v)
+		topic := object["topic"].(string)
+		if input.Type == "heartbeat" {
+			message := object["message"].(string)
+			data := &DeviceUpStatusMsg{}
+			//decodeBytes, err := base64.StdEncoding.DecodeString(input.Message.(string))
+			err = json.Unmarshal([]byte(message), data)
+			if err != nil {
+				ctx.Logger().Errorf("Unmarshal error Message: %s", message)
+				return false, nil
+			}
+			if _, err := get(data.DeviceId); err != nil {
+				add(data.DeviceId, 15*time.Second, data, func(item *cache2go.CacheItem) {
+					data.Status = DEVICE_STATUS_OFFLINE
+					out, _ := json.Marshal(data)
+					if token := a.client.Publish(topic, byte(a.settings.Qos), true, out); token.Wait() && token.Error() != nil {
+						ctx.Logger().Debugf("Error in publishing: %v", err)
+					} else {
+						ctx.Logger().Debugf("Published Topic:%s, Message: %s", topic, string(out))
+					}
+				})
+			} else {
+				ctx.Logger().Debugf("Recv Heartbeat Topic:%s,Message:%s", topic, message)
+				return true, nil
+			}
+			//add(data.DeviceId,15 * time.Second,data,func(key interface{}){})
 		} else {
-			ctx.Logger().Debugf("Recv Heartbeat Topic:%s,Message:%s", input.Topic, input.Message.(string))
-			return true, nil
+			if topic == "" {
+				ctx.Logger().Infof("filter message")
+				return true, nil
+			}
 		}
-		//add(data.DeviceId,15 * time.Second,data,func(key interface{}){})
-	} else {
-		if input.Topic == "" {
-			ctx.Logger().Infof("filter message")
-			return true, nil
+		message, _ := json.Marshal(object["message"])
+		ctx.Logger().Infof("[Activity] Eval  Topic:%s,Message:%s", topic, message)
+		if token := a.client.Publish(topic, byte(a.settings.Qos), true, message); token.Wait() && token.Error() != nil {
+			ctx.Logger().Debugf("Error in publishing: %v", err)
+			return true, token.Error()
 		}
+		ctx.Logger().Infof("Published Message Success: %s", message)
 	}
-	ctx.Logger().Infof("[Activity] Eval  Topic:%s,Message:%s", input.Topic, input.Message.(string))
-	if token := a.client.Publish(input.Topic, byte(a.settings.Qos), true, input.Message); token.Wait() && token.Error() != nil {
-		ctx.Logger().Debugf("Error in publishing: %v", err)
-		return true, token.Error()
-	}
-	ctx.Logger().Infof("Published Message Success: %s", input.Message.(string))
 
 	return true, nil
 }

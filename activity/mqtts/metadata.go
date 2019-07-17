@@ -22,9 +22,8 @@ type DeviceUpStatusMsg struct {
 	Time       int64  `json:"time"`
 }
 type Input struct {
-	Message interface{} `md:"message"` // The message to send
-	Type    string      `md:"type"`
-	Topic   string      `md:"topic"`
+	Data []interface{} `md:"data"`
+	Type string        `md:"type"`
 }
 
 type Output struct {
@@ -33,16 +32,14 @@ type Output struct {
 
 func (i *Input) ToMap() map[string]interface{} {
 	return map[string]interface{}{
-		"message": i.Message,
-		"type":    i.Type,
-		"topic":   i.Topic,
+		"data": i.Data,
+		"type": i.Type,
 	}
 }
 
 func (i *Input) FromMap(values map[string]interface{}) error {
-	i.Message, _ = values["message"]
+	i.Data, _ = coerce.ToArray(values["data"])
 	i.Type, _ = coerce.ToString(values["type"])
-	i.Topic, _ = coerce.ToString(values["topic"])
 	return nil
 }
 

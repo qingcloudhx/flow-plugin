@@ -53,8 +53,8 @@
   ],
   "output": [
     {
-      "name": "message",
-      "type": "string"
+      "name": "data",
+      "type": "object"
     },
     {
       "name": "topic",

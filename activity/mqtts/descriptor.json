@@ -86,8 +86,8 @@
   ],
   "input": [
     {
-      "name": "message",
-      "type": "string",
+      "name": "data",
+      "type": "object",
       "description": "The message to send"
     },
     {

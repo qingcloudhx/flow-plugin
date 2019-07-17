@@ -1,7 +1,6 @@
 package encode
 
 import (
-	"encoding/json"
 	"github.com/pkg/errors"
 	"github.com/qingcloudhx/core/activity"
 	"github.com/qingcloudhx/core/data/coerce"
@@ -69,21 +68,25 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 		ctx.Logger().Errorf("eval:%d", len(a.devices))
 		return false, errors.New("param error")
 	}
+	output.Type = input.Type
+	output.Data = make([]interface{}, 0)
 	switch input.Type {
 	case "heartbeat":
 		message := buildHeartBeat(a.devices[id].DeviceId, a.devices[id].ThingId, DEVICE_STATUS_ONLINE)
-		output.Message = string(message)
-		output.Topic = buildHeartbeatTopic(a.devices[id].DeviceId, a.devices[id].ThingId)
+		msg := make(map[string]interface{})
+		msg["message"] = string(message)
+		msg["topic"] = buildHeartbeatTopic(a.devices[id].DeviceId, a.devices[id].ThingId)
+		output.Data = append(output.Data, msg)
 	case "data":
 		if exists(input.License) {
 			ctx.Logger().Infof("filter repeat license:%s", input.License)
+			msg := make(map[string]interface{})
+			msg["message"] = ""
+			msg["topic"] = ""
+			output.Data = append(output.Data, msg)
 		} else {
 			add(input.License, 3*time.Second, input.License)
-			//message := &ThingMsg{
-			//	Id:      uuid.NewV4().String(),
-			//	Version: a.Version,
-			//	Params:  make(map[string]*ThingData),
-			//}
+
 			message := make(map[string]interface{}, 0)
 			message["id"] = uuid.NewV4().String()
 			message["version"] = "v1.0.1"
@@ -104,57 +107,18 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 					}
 				}
 			}
-			//label := &ThingData{
-			//	Id:    "35",
-			//	Type:  "string",
-			//	Value: input.Label,
-			//	Time:  time.Now().Unix() * 1000,
-			//}
-			//message.Params["label"] = label
-			//image := &ThingData{
-			//	Id:    "34",
-			//	Type:  "string",
-			//	Value: input.Image,
-			//	Time:  time.Now().Unix() * 1000,
-			//}
-			//if url := getPictureUrl(input.Image, ctx.Logger()); url == "" {
-			//	ctx.Logger().Errorf("getPictureUrl image:%s", input.Image)
-			//	return false, nil
-			//} else {
-			//	image.Value = url
-			//}
-			//message.Params["image"] = image
-			//confidence := &ThingData{
-			//	Id:    "36",
-			//	Type:  "float",
-			//	Value: input.Confidence,
-			//	Time:  time.Now().Unix() * 1000,
-			//}
-			//message.Params["confidence"] = confidence
-			//
-			//color := &ThingData{
-			//	Id:    "60",
-			//	Type:  "string",
-			//	Value: input.Color,
-			//	Time:  time.Now().Unix() * 1000,
-			//}
-			//message.Params["color"] = color
-			//license := &ThingData{
-			//	Id:    "61",
-			//	Type:  "string",
-			//	Value: input.License,
-			//	Time:  time.Now().Unix() * 1000,
-			//}
-			//message.Params["license"] = license
 
-			data, _ := json.Marshal(message)
-			output.Message = string(data)
+			//data, _ := json.Marshal(message)
+			msg := make(map[string]interface{})
+			msg["message"] = message
 			if a.Type == "property" {
-				output.Topic = buildUpPropertyTopic(a.devices[id].DeviceId, a.devices[id].ThingId, a.EventId)
+				msg["topic"] = buildUpPropertyTopic(a.devices[id].DeviceId, a.devices[id].ThingId, a.EventId)
+				ctx.Logger().Infof("[property] topic:%s,encode:%+v", msg["topic"], message)
 			} else {
-				output.Topic = buildUpTopic(a.devices[id].DeviceId, a.devices[id].ThingId, a.EventId)
+				msg["topic"] = buildUpTopic(a.devices[id].DeviceId, a.devices[id].ThingId, a.EventId)
+				ctx.Logger().Infof("[event] topic:%s,encode:%+v", msg["topic"], message)
 			}
-			ctx.Logger().Infof("topic:%s,encode:%s", output.Topic, data)
+			output.Data = append(output.Data, msg)
 		}
 	default:
 		ctx.Logger().Errorf("data error:%+v", input)

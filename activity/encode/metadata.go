@@ -100,25 +100,24 @@ func (i *Input) FromMap(values map[string]interface{}) error {
 }
 
 type Output struct {
-	Message string `md:"message"`
-	Topic   string `md:"topic"`
+	Data []interface{} `md:"data"`
+	Type string        `md:"type"`
 }
 
 func (i *Output) ToMap() map[string]interface{} {
 	return map[string]interface{}{
-		"message": i.Message,
-		"topic":   i.Topic,
+		"data": i.Data,
+		"type": i.Type,
 	}
 }
 
 func (i *Output) FromMap(values map[string]interface{}) error {
-
 	var err error
-	i.Message, err = coerce.ToString(values["message"])
+	i.Data, err = coerce.ToArray(values["data"])
 	if err != nil {
 		return err
 	}
-	i.Topic, err = coerce.ToString(values["topic"])
+	i.Type, err = coerce.ToString(values["type"])
 	if err != nil {
 		return err
 	}
