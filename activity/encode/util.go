@@ -60,7 +60,14 @@ func getPictureUrl(path string, logger log.Logger) string {
 		logger.Errorf("open fail err:%s", err.Error())
 		return ""
 	}
-	defer file.Close()
+	defer func() {
+		file.Close()
+		if err := os.Remove(path); err != nil {
+			logger.Error(err)
+		} else {
+			logger.Infof("remove %s success", path)
+		}
+	}()
 
 	// Put object
 	name := "ai-" + strconv.FormatUint(uint64(time.Now().Unix()), 10) + ".jpg"
