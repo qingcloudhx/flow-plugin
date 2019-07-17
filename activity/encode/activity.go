@@ -91,7 +91,18 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 				ctx.Logger().Errorf("buildMessage fail:%s", err.Error())
 				return false, err
 			}
+			//todo fix image
 			message["params"] = params
+			if image, ok := params["image"]; ok {
+				if v, ok := image.(map[string]interface{}); ok {
+					if url := getPictureUrl(v["value"].(string), ctx.Logger()); url == "" {
+						ctx.Logger().Errorf("getPictureUrl image:%s", input.Image)
+						return false, nil
+					} else {
+						v["value"] = url
+					}
+				}
+			}
 			//label := &ThingData{
 			//	Id:    "35",
 			//	Type:  "string",
