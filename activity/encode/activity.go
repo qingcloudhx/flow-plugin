@@ -7,6 +7,7 @@ import (
 	"github.com/qingcloudhx/core/data/coerce"
 	"github.com/qingcloudhx/core/data/metadata"
 	uuid "github.com/satori/go.uuid"
+	"golang.org/x/text/internal"
 	"time"
 )
 
@@ -77,11 +78,15 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 			ctx.Logger().Infof("filter repeat license:%s", input.License)
 		} else {
 			add(input.License, 3*time.Second, input.License)
-			message := &ThingMsg{
-				Id:      uuid.NewV4().String(),
-				Version: a.Version,
-				Params:  make(map[string]*ThingData),
-			}
+			//message := &ThingMsg{
+			//	Id:      uuid.NewV4().String(),
+			//	Version: a.Version,
+			//	Params:  make(map[string]*ThingData),
+			//}
+			message := make(map[string]interface{}, 0)
+			message["id"] = uuid.NewV4().String()
+			message["version"] = "v1.0.1"
+			params := make(map[string]interface{})
 			label := &ThingData{
 				Id:    "35",
 				Type:  "string",

@@ -105,8 +105,12 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 		if v, ok := p["dt"]; ok {
 			if val, ok := v.(map[string]interface{}); ok {
 				val["id"] = "78"
-				params["type"] = val["type"].(string)
-				params["value"] = val["value"]
+				params["type"] = "string"
+				if input.Color == "blue" {
+					params["value"] = "距离<=20cm"
+				} else {
+					params["value"] = "距离>20cm"
+				}
 			}
 		}
 		params["id"] = "iotp-32f168bc-db95-4eef-851b-28cf1fd75712"
