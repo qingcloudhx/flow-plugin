@@ -132,6 +132,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 			ctx.Logger().Debugf("Error in publishing: %v", err)
 			return true, token.Error()
 		}
+		a.color = input.Color
 	}
 	//todo property
 	params = make(map[string]interface{})
