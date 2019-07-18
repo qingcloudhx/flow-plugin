@@ -5,6 +5,7 @@ import (
 	"github.com/qingcloudhx/core/data/coerce"
 	"github.com/qingcloudhx/core/data/metadata"
 	uuid "github.com/satori/go.uuid"
+	"time"
 )
 
 /**
@@ -72,6 +73,8 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 	}
 	message["params"] = params
 	for k, v := range a.AddMappings {
+		obj, _ := coerce.ToObject(v)
+		obj["time"] = time.Now().Unix() * 1000
 		params[k] = v
 	}
 	//data, _ := json.Marshal(message)
