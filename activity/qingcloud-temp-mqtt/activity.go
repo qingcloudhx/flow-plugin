@@ -101,8 +101,8 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 	ctx.Logger().Infof("eval start:%+v", param)
 	if p, ok := param["params"]; ok {
 		params := make(map[string]interface{})
-		p, _ := coerce.ToObject(p)
-		if v, ok := p["dt"]; ok {
+		ps, _ := coerce.ToObject(p)
+		if v, ok := ps["dt"]; ok {
 			if val, ok := v.(map[string]interface{}); ok {
 				val["id"] = "78"
 				params["type"] = "string"
@@ -127,12 +127,13 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 			ctx.Logger().Debugf("Error in publishing: %v", err)
 			return true, token.Error()
 		}
-		if v, ok := p["temperature"]; ok {
+		if v, ok := ps["temperature"]; ok {
 			if val, ok := v.(map[string]interface{}); ok {
 				val["id"] = "79"
 			}
 		}
 	}
+
 	color := make(map[string]interface{})
 	color["id"] = "77"
 	color["type"] = "string"
