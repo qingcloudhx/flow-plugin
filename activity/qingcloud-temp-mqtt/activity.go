@@ -126,8 +126,8 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 		m["id"] = "79"
 	}
 	data, _ := json.Marshal(message)
-	ctx.Logger().Infof("eval event topic:%s,format:%+v", a.settings.Topic, string(data))
 	if a.color != input.Color {
+		ctx.Logger().Infof("eval event topic:%s,format:%+v", a.settings.Topic, string(data))
 		if token := a.client.Publish(a.settings.Topic, byte(a.settings.Qos), true, data); token.Wait() && token.Error() != nil {
 			ctx.Logger().Debugf("Error in publishing: %v", err)
 			return true, token.Error()
