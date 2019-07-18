@@ -94,67 +94,66 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 	if err != nil {
 		return true, err
 	}
-	param, err := coerce.ToObject(input.Message)
+	message, err := coerce.ToObject(input.Message)
 	if err != nil {
 		return true, err
 	}
-	ctx.Logger().Infof("eval start:%+v", param)
-	if p, ok := param["params"]; ok {
-		params := make(map[string]interface{})
-		ps, _ := coerce.ToObject(p)
-		if v, ok := ps["dt"]; ok {
-			if val, ok := v.(map[string]interface{}); ok {
-				val["id"] = "78"
-				params["type"] = "string"
-				if input.Color == "blue" {
-					params["value"] = "距离<=20cm"
-				} else {
-					params["value"] = "距离>20cm"
-				}
-			}
-		}
-		params["id"] = "iotp-32f168bc-db95-4eef-851b-28cf1fd75712"
-		params["time"] = time.Now().Unix() * 1000
-		data := make(map[string]interface{})
-		data["id"] = uuid.NewV4().String()
-		data["version"] = "v1.0.0"
-		dt := make(map[string]interface{})
-		dt["dt"] = params
-		data["params"] = dt
-		message, _ := json.Marshal(data)
-		ctx.Logger().Infof("eval topic:/sys/iott-bbeebd96-328e-4076-a59e-5a8341f5ab88/iotd-f6f1627e-ab18-49af-9d1c-88062ba44390/thing/event/property/post format:%+v", string(message))
-		if token := a.client.Publish("/sys/iott-bbeebd96-328e-4076-a59e-5a8341f5ab88/iotd-f6f1627e-ab18-49af-9d1c-88062ba44390/thing/event/property/post", byte(a.settings.Qos), true, message); token.Wait() && token.Error() != nil {
-			ctx.Logger().Debugf("Error in publishing: %v", err)
-			return true, token.Error()
-		}
-		if v, ok := ps["temperature"]; ok {
-			if val, ok := v.(map[string]interface{}); ok {
-				val["id"] = "79"
-			}
-		}
+	params, err := coerce.ToObject(message["params"])
+	if err != nil {
+		return true, err
 	}
-
+	ctx.Logger().Infof("eval start:%+v", message)
 	color := make(map[string]interface{})
 	color["id"] = "77"
 	color["type"] = "string"
 	color["value"] = input.Color
 	color["time"] = time.Now().Unix() * 1000
-	param["color"] = color
+	params["color"] = color
 
 	power := make(map[string]interface{})
 	power["id"] = "76"
 	power["type"] = "float"
 	power["value"] = 1
 	power["time"] = time.Now().Unix() * 1000
-	param["power"] = power
-	message, _ := json.Marshal(param)
-	ctx.Logger().Infof("eval event topic:%s,format:%+v", a.settings.Topic, string(message))
-	if token := a.client.Publish(a.settings.Topic, byte(a.settings.Qos), true, message); token.Wait() && token.Error() != nil {
+	params["power"] = power
+	if v, ok := params["dt"]; ok {
+		m, _ := coerce.ToObject(v)
+		m["id"] = "78"
+	}
+	if v, ok := params["temperature"]; ok {
+		m, _ := coerce.ToObject(v)
+		m["id"] = "79"
+	}
+	data, _ := json.Marshal(message)
+	ctx.Logger().Infof("eval event topic:%s,format:%+v", a.settings.Topic, string(data))
+	if token := a.client.Publish(a.settings.Topic, byte(a.settings.Qos), true, data); token.Wait() && token.Error() != nil {
+		ctx.Logger().Debugf("Error in publishing: %v", err)
+		return true, token.Error()
+	}
+	//todo property
+	params = make(map[string]interface{})
+	params["id"] = "iotp-32f168bc-db95-4eef-851b-28cf1fd75712"
+	params["type"] = "string"
+	params["time"] = time.Now().Unix() * 1000
+	if input.Color == "blue" {
+		params["value"] = "距离<=20cm"
+	} else {
+		params["value"] = "距离>20cm"
+	}
+	message = make(map[string]interface{})
+	message["id"] = uuid.NewV4().String()
+	message["version"] = "v1.0.0"
+	dt := make(map[string]interface{})
+	dt["dt"] = params
+	message["params"] = dt
+	data, _ = json.Marshal(message)
+	ctx.Logger().Infof("eval property format:%s",string(data))
+	if token := a.client.Publish("/sys/iott-bbeebd96-328e-4076-a59e-5a8341f5ab88/iotd-f6f1627e-ab18-49af-9d1c-88062ba44390/thing/event/property/post", byte(a.settings.Qos), true, data); token.Wait() && token.Error() != nil {
 		ctx.Logger().Debugf("Error in publishing: %v", err)
 		return true, token.Error()
 	}
 
-	ctx.Logger().Debugf("Published Message: %v", input.Message)
+	ctx.Logger().Debugf("Published Message success: %v", input.Message)
 
 	return true, nil
 }
