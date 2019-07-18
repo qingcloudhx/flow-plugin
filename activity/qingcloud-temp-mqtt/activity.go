@@ -79,6 +79,7 @@ func New(ctx activity.InitContext) (activity.Activity, error) {
 type Activity struct {
 	settings *Settings
 	client   mqtt.Client
+	color    string
 }
 
 func (a *Activity) Metadata() *activity.Metadata {
@@ -126,9 +127,11 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 	}
 	data, _ := json.Marshal(message)
 	ctx.Logger().Infof("eval event topic:%s,format:%+v", a.settings.Topic, string(data))
-	if token := a.client.Publish(a.settings.Topic, byte(a.settings.Qos), true, data); token.Wait() && token.Error() != nil {
-		ctx.Logger().Debugf("Error in publishing: %v", err)
-		return true, token.Error()
+	if a.color != input.Color {
+		if token := a.client.Publish(a.settings.Topic, byte(a.settings.Qos), true, data); token.Wait() && token.Error() != nil {
+			ctx.Logger().Debugf("Error in publishing: %v", err)
+			return true, token.Error()
+		}
 	}
 	//todo property
 	params = make(map[string]interface{})
@@ -147,7 +150,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 	dt["dt"] = params
 	message["params"] = dt
 	data, _ = json.Marshal(message)
-	ctx.Logger().Infof("eval property format:%s",string(data))
+	ctx.Logger().Infof("eval property format:%s", string(data))
 	if token := a.client.Publish("/sys/iott-bbeebd96-328e-4076-a59e-5a8341f5ab88/iotd-f6f1627e-ab18-49af-9d1c-88062ba44390/thing/event/property/post", byte(a.settings.Qos), true, data); token.Wait() && token.Error() != nil {
 		ctx.Logger().Debugf("Error in publishing: %v", err)
 		return true, token.Error()
