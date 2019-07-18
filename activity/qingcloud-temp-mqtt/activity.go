@@ -122,7 +122,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 		dt["dt"] = params
 		data["params"] = dt
 		message, _ := json.Marshal(data)
-		ctx.Logger().Infof("eval format:%+v", string(message))
+		ctx.Logger().Infof("eval topic:/sys/iott-bbeebd96-328e-4076-a59e-5a8341f5ab88/iotd-f6f1627e-ab18-49af-9d1c-88062ba44390/thing/event/property/post format:%+v", string(message))
 		if token := a.client.Publish("/sys/iott-bbeebd96-328e-4076-a59e-5a8341f5ab88/iotd-f6f1627e-ab18-49af-9d1c-88062ba44390/thing/event/property/post", byte(a.settings.Qos), true, message); token.Wait() && token.Error() != nil {
 			ctx.Logger().Debugf("Error in publishing: %v", err)
 			return true, token.Error()
@@ -148,7 +148,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 	power["time"] = time.Now().Unix() * 1000
 	param["power"] = power
 	message, _ := json.Marshal(param)
-	ctx.Logger().Infof("eval format:%+v", string(message))
+	ctx.Logger().Infof("eval event topic:%s,format:%+v", a.settings.Topic, string(message))
 	if token := a.client.Publish(a.settings.Topic, byte(a.settings.Qos), true, message); token.Wait() && token.Error() != nil {
 		ctx.Logger().Debugf("Error in publishing: %v", err)
 		return true, token.Error()
