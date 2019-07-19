@@ -102,6 +102,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 	if err != nil {
 		return true, err
 	}
+	ctx.Logger().Infof("eval start:%+v", input)
 	//heartbeat string
 	//data map
 	for _, v := range input.Data {
