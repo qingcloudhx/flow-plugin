@@ -39,7 +39,7 @@ func buildHeartBeat(id, thingId, status string) []byte {
 func buildUpTopic(id, thingId, eventId string) string {
 	return fmt.Sprintf("/sys/%s/%s/thing/event/%s/post", thingId, id, eventId)
 }
-func buildUpPropertyTopic(id, thingId, eventId string) string {
+func buildUpPropertyTopic(id, thingId string) string {
 	return fmt.Sprintf("/sys/%s/%s/thing/event/property/post", thingId, id)
 }
 func buildHeartbeatTopic(id, thingId string) string {
