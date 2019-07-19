@@ -96,7 +96,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 		return true, token.Error()
 	}
 
-	ctx.Logger().Debugf("Published Topic:%s,Message: %v", a.settings.Topic, input.Message)
+	ctx.Logger().Infof("Published Topic:%s,Message: %v", a.settings.Topic, input.Message)
 
 	return true, nil
 }
