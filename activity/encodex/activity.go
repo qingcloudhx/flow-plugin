@@ -99,11 +99,12 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 		return false, err
 	}
 	ctx.Logger().Infof("[property] convert params:%+v", params)
+	property["params"] = params
 	msgp := make(map[string]interface{})
 	msgp["message"] = property
 	msgp["topic"] = buildUpPropertyTopic(a.devices[0].DeviceId, a.devices[0].ThingId)
 
-	ctx.Logger().Infof("[property] topic:%s,encode:%+v", msg["topic"], event)
+	ctx.Logger().Infof("[property] topic:%s,encode:%+v", msgp["topic"], property)
 	output.Data = append(output.Data, msgp)
 
 	err = ctx.SetOutputObject(output)
