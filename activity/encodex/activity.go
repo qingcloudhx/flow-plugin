@@ -72,6 +72,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 		ctx.Logger().Errorf("buildMessage fail:%s", err.Error())
 		return false, err
 	}
+	ctx.Logger().Infof("[event] convert params:%+v", params)
 	event["params"] = params
 	for k, v := range a.AddMappings {
 		obj, _ := coerce.ToObject(v)
@@ -95,6 +96,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 		ctx.Logger().Errorf("buildMessage fail:%s", err.Error())
 		return false, err
 	}
+	ctx.Logger().Infof("[property] convert params:%+v", params)
 	msgp := make(map[string]interface{})
 	msgp["message"] = property
 	msgp["topic"] = buildUpPropertyTopic(a.devices[0].DeviceId, a.devices[0].ThingId)
