@@ -67,7 +67,9 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 	event := make(map[string]interface{}, 0)
 	event["id"] = uuid.NewV4().String()
 	event["version"] = "v1.0.1"
-	params, err := buildMessage(input.ToMap(), a.EventMappings)
+	obj, _ := coerce.ToObject(input.ToMap()["message"])
+	objp, _ := coerce.ToObject(obj["params"])
+	params, err := buildMessage(objp, a.EventMappings)
 	if err != nil {
 		ctx.Logger().Errorf("buildMessage fail:%s", err.Error())
 		return false, err
@@ -91,7 +93,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 	property := make(map[string]interface{}, 0)
 	property["id"] = uuid.NewV4().String()
 	property["version"] = "v1.0.1"
-	params, err = buildMessage(input.ToMap(), a.PropertyMappings)
+	params, err = buildMessage(objp, a.PropertyMappings)
 	if err != nil {
 		ctx.Logger().Errorf("buildMessage fail:%s", err.Error())
 		return false, err
