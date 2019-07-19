@@ -58,7 +58,7 @@ func buildMessage(message map[string]interface{}, mappings map[string]interface{
 			}
 			params[k].(map[string]interface{})["id"] = obj["id"]
 			params[k].(map[string]interface{})["type"] = obj["type"]
-			value, err := coerce.ToType(val, toType(obj["type"]))
+			value, err := coerce.ToType(val.(map[string]interface{})["value"], toType(obj["type"]))
 			if err != nil {
 				return nil, err
 			}
