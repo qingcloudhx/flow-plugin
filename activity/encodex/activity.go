@@ -75,19 +75,20 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 		return false, err
 	}
 	ctx.Logger().Infof("[event] convert params:%+v", params)
-	event["params"] = params
 	for k, v := range a.AddMappings {
 		obj, _ := coerce.ToObject(v)
 		obj["time"] = time.Now().Unix() * 1000
 		params[k] = v
 	}
-	//data, _ := json.Marshal(message)
-	msg := make(map[string]interface{})
-	msg["message"] = event
-	msg["topic"] = buildUpTopic(a.devices[0].DeviceId, a.devices[0].ThingId, a.EventId)
+	event["params"] = params
+	if len(params) != 0 {
+		msg := make(map[string]interface{})
+		msg["message"] = event
+		msg["topic"] = buildUpTopic(a.devices[0].DeviceId, a.devices[0].ThingId, a.EventId)
 
-	ctx.Logger().Infof("[event] topic:%s,encode:%+v", msg["topic"], event)
-	output.Data = append(output.Data, msg)
+		ctx.Logger().Infof("[event] topic:%s,encode:%+v", msg["topic"], event)
+		output.Data = append(output.Data, msg)
+	}
 
 	//property
 	property := make(map[string]interface{}, 0)
@@ -99,14 +100,15 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 		return false, err
 	}
 	ctx.Logger().Infof("[property] convert params:%+v", params)
-	property["params"] = params
-	msgp := make(map[string]interface{})
-	msgp["message"] = property
-	msgp["topic"] = buildUpPropertyTopic(a.devices[0].DeviceId, a.devices[0].ThingId)
+	if len(params) != 0 {
+		property["params"] = params
+		msgp := make(map[string]interface{})
+		msgp["message"] = property
+		msgp["topic"] = buildUpPropertyTopic(a.devices[0].DeviceId, a.devices[0].ThingId)
 
-	ctx.Logger().Infof("[property] topic:%s,encode:%+v", msgp["topic"], property)
-	output.Data = append(output.Data, msgp)
-
+		ctx.Logger().Infof("[property] topic:%s,encode:%+v", msgp["topic"], property)
+		output.Data = append(output.Data, msgp)
+	}
 	err = ctx.SetOutputObject(output)
 	if err != nil {
 		return false, err
