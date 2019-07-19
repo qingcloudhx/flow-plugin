@@ -46,6 +46,7 @@ type Activity struct {
 	EventMappings    map[string]interface{}
 	AddMappings      map[string]interface{}
 	PropertyMappings map[string]interface{}
+	Color            string
 }
 
 // Metadata returns the activity's metadata
@@ -81,13 +82,14 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 		params[k] = v
 	}
 	event["params"] = params
-	if len(params) != 0 {
+	if len(params) != 0 && input.Color != a.Color {
 		msg := make(map[string]interface{})
 		msg["message"] = event
 		msg["topic"] = buildUpTopic(a.devices[0].DeviceId, a.devices[0].ThingId, a.EventId)
 
 		ctx.Logger().Infof("[event] topic:%s,encode:%+v", msg["topic"], event)
 		output.Data = append(output.Data, msg)
+		a.Color = input.Color
 	}
 
 	//property
