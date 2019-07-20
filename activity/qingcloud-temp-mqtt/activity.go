@@ -125,6 +125,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 		m, _ := coerce.ToObject(v)
 		m["id"] = "79"
 	}
+	message["params"] = params
 	data, _ := json.Marshal(message)
 	if a.color != input.Color {
 		ctx.Logger().Infof("eval event topic:%s,format:%+v", a.settings.Topic, string(data))
