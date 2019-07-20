@@ -158,7 +158,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 	//	return true, token.Error()
 	//}
 
-	ctx.Logger().Debugf("Published Message success: %v", input.Message)
+	ctx.Logger().Infof("Published Message success: %v", input.Message)
 
 	return true, nil
 }
