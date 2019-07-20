@@ -8,7 +8,6 @@ import (
 	"github.com/qingcloudhx/core/data/metadata"
 	"github.com/qingcloudhx/core/support/log"
 	"github.com/qingcloudhx/core/support/ssl"
-	uuid "github.com/satori/go.uuid"
 	"strings"
 	"time"
 )
@@ -103,6 +102,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 	if err != nil {
 		return true, err
 	}
+	params = make(map[string]interface{})
 	ctx.Logger().Infof("eval start:%+v", message)
 	color := make(map[string]interface{})
 	color["id"] = "77"
@@ -144,18 +144,18 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 	//} else {
 	//	params["value"] = "距离>20cm"
 	//}
-	message = make(map[string]interface{})
-	message["id"] = uuid.NewV4().String()
-	message["version"] = "v1.0.0"
-	dt := make(map[string]interface{})
-	//dt["dt"] = params
-	//message["params"] = dt
-	data, _ = json.Marshal(message)
-	ctx.Logger().Infof("eval property format:%s", string(data))
-	if token := a.client.Publish("/sys/iott-bbeebd96-328e-4076-a59e-5a8341f5ab88/iotd-f6f1627e-ab18-49af-9d1c-88062ba44390/thing/event/property/post", byte(a.settings.Qos), true, data); token.Wait() && token.Error() != nil {
-		ctx.Logger().Debugf("Error in publishing: %v", err)
-		return true, token.Error()
-	}
+	//message = make(map[string]interface{})
+	//message["id"] = uuid.NewV4().String()
+	//message["version"] = "v1.0.0"
+	////dt := make(map[string]interface{})
+	////dt["dt"] = params
+	////message["params"] = dt
+	//data, _ = json.Marshal(message)
+	//ctx.Logger().Infof("eval property format:%s", string(data))
+	//if token := a.client.Publish("/sys/iott-bbeebd96-328e-4076-a59e-5a8341f5ab88/iotd-f6f1627e-ab18-49af-9d1c-88062ba44390/thing/event/property/post", byte(a.settings.Qos), true, data); token.Wait() && token.Error() != nil {
+	//	ctx.Logger().Debugf("Error in publishing: %v", err)
+	//	return true, token.Error()
+	//}
 
 	ctx.Logger().Debugf("Published Message success: %v", input.Message)
 
