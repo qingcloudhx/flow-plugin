@@ -135,21 +135,21 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 		a.color = input.Color
 	}
 	//todo property
-	params = make(map[string]interface{})
-	params["id"] = "iotp-32f168bc-db95-4eef-851b-28cf1fd75712"
-	params["type"] = "string"
-	params["time"] = time.Now().Unix() * 1000
-	if input.Color == "blue" {
-		params["value"] = "距离<=20cm"
-	} else {
-		params["value"] = "距离>20cm"
-	}
+	//params = make(map[string]interface{})
+	//params["id"] = "iotp-32f168bc-db95-4eef-851b-28cf1fd75712"
+	//params["type"] = "string"
+	//params["time"] = time.Now().Unix() * 1000
+	//if input.Color == "blue" {
+	//	params["value"] = "距离<=20cm"
+	//} else {
+	//	params["value"] = "距离>20cm"
+	//}
 	message = make(map[string]interface{})
 	message["id"] = uuid.NewV4().String()
 	message["version"] = "v1.0.0"
 	dt := make(map[string]interface{})
-	dt["dt"] = params
-	message["params"] = dt
+	//dt["dt"] = params
+	//message["params"] = dt
 	data, _ = json.Marshal(message)
 	ctx.Logger().Infof("eval property format:%s", string(data))
 	if token := a.client.Publish("/sys/iott-bbeebd96-328e-4076-a59e-5a8341f5ab88/iotd-f6f1627e-ab18-49af-9d1c-88062ba44390/thing/event/property/post", byte(a.settings.Qos), true, data); token.Wait() && token.Error() != nil {
