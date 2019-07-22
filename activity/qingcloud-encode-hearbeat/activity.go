@@ -16,7 +16,7 @@ import (
 )
 
 func init() {
-	_ = activity.Register(&Activity{}) //activity.Register(&Activity{}, New) to create instances using factory method 'New'
+	_ = activity.Register(&Activity{},New) //activity.Register(&Activity{}, New) to create instances using factory method 'New'
 }
 
 var activityMd = activity.ToMetadata(&Settings{}, &Input{}, &Output{})
@@ -78,7 +78,7 @@ func New(ctx activity.InitContext) (activity.Activity, error) {
 				}
 			}
 		}()
-	}else {
+	} else {
 		ctx.Logger().Infof("mqtt conect success")
 		atomic.StoreInt32(&flag, 1)
 	}
