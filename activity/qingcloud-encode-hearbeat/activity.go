@@ -24,7 +24,7 @@ var flag int32 = 0
 
 //New optional factory method, should be used if one activity instance per configuration is desired
 func New(ctx activity.InitContext) (activity.Activity, error) {
-
+	ctx.Logger().Infof("activity init")
 	settings := &Settings{}
 	err := metadata.MapToStruct(ctx.Settings(), settings, true)
 	if err != nil {
