@@ -1,4 +1,4 @@
-module github.com/qingcloudhx/flow-plugin/trigger/qingcloud_timer_rand
+module github.com/qingcloudhx/flow-plugin/trigger/qingcloud-timer-rand
 
 require (
 	github.com/carlescere/scheduler v0.0.0-20170109141437-ee74d2f83d82
