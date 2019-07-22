@@ -65,7 +65,17 @@ func (t *Trigger) Start() error {
 		if err != nil {
 			return err
 		}
-
+		run := func() {
+			output := build(s)
+			_, err := handler.Handle(context.Background(), output)
+			if err != nil {
+				t.logger.Error("Error running heartbeat handler: ", err.Error())
+			}
+		}
+		_, err = scheduler.Every(10).Seconds().Run(run)
+		if err != nil {
+			return err
+		}
 		if s.RepeatInterval == "" {
 			err = t.scheduleOnce(handler, s)
 			if err != nil {
