@@ -78,6 +78,9 @@ func New(ctx activity.InitContext) (activity.Activity, error) {
 				}
 			}
 		}()
+	}else {
+		ctx.Logger().Infof("mqtt conect success")
+		atomic.StoreInt32(&flag, 1)
 	}
 	act := &Activity{settings: settings, client: mqttClient, log: ctx.Logger()} //add aSetting to instance
 
