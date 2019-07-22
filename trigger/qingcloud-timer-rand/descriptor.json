@@ -40,7 +40,7 @@
               "type": "string",
               "description": "desc prperty id"
             },
-            "name": {
+            "type": {
               "type": "string",
               "description": "desc prperty name"
             }
