@@ -28,6 +28,7 @@ func New(ctx activity.InitContext) (activity.Activity, error) {
 	settings := &Settings{}
 	err := metadata.MapToStruct(ctx.Settings(), settings, true)
 	if err != nil {
+		ctx.Logger().Error(err)
 		return nil, err
 	}
 
