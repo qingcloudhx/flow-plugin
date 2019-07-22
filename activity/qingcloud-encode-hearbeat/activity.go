@@ -64,18 +64,21 @@ func New(ctx activity.InitContext) (activity.Activity, error) {
 	}
 
 	mqttClient := mqtt.NewClient(options)
-	go func() {
-		for {
-			if token := mqttClient.Connect(); token.Wait() && token.Error() != nil {
-				ctx.Logger().Error(token.Error())
-				time.Sleep(3 * time.Second)
-			} else {
-				ctx.Logger().Infof("mqtt conect success")
-				atomic.StoreInt32(&flag, 1)
-				break
+	if token := mqttClient.Connect(); token.Wait() && token.Error() != nil {
+		ctx.Logger().Error(token.Error())
+		go func() {
+			for {
+				if token := mqttClient.Connect(); token.Wait() && token.Error() != nil {
+					ctx.Logger().Error(token.Error())
+					time.Sleep(3 * time.Second)
+				} else {
+					ctx.Logger().Infof("mqtt conect success")
+					atomic.StoreInt32(&flag, 1)
+					break
+				}
 			}
-		}
-	}()
+		}()
+	}
 	act := &Activity{settings: settings, client: mqttClient, log: ctx.Logger()} //add aSetting to instance
 
 	return act, nil
