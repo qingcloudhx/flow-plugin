@@ -135,7 +135,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 	if err != nil {
 		return true, err
 	}
-	a.log.Infof("publish topic:%s,message:%s",topic,string(data))
+	a.log.Infof("publish topic:%s,message:%s", topic, string(data))
 	return true, nil
 }
 func (a *Activity) callback(item *cache2go.CacheItem) {
