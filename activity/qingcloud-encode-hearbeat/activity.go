@@ -5,7 +5,7 @@ import (
 	"fmt"
 	mqtt "github.com/eclipse/paho.mqtt.golang"
 	"github.com/muesli/cache2go"
-	"github.com/pkg/errors"
+	"errors"
 	"github.com/qingcloudhx/core/activity"
 	"github.com/qingcloudhx/core/data/metadata"
 	"github.com/qingcloudhx/core/support/log"
