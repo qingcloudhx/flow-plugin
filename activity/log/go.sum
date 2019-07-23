@@ -1,11 +1,17 @@
 github.com/davecgh/go-spew v1.1.0 h1:ZDRjVQ15GmhC3fiQ8ni8+OwkZQO4DARzQgrnXU1Liz8=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
+github.com/julienschmidt/httprouter v1.2.0/go.mod h1:SYymIcj16QtmaHHD7aYtjjsJG7VTCxuUUipMqKk8s4w=
 github.com/pkg/errors v0.8.1 h1:iURUrRGxPUNPdy5/HRSm+Yj6okJ6UtLINN0Q9M4+h3I=
 github.com/pkg/errors v0.8.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/qingcloudhx/core v0.9.3-0.20190625065757-9a4c5da90847 h1:xFtNNLOIV56sPpnouYYf1Vtc3OHQ9TTZkCEdLsQTdpg=
 github.com/qingcloudhx/core v0.9.3-0.20190625065757-9a4c5da90847/go.mod h1:9KromA2Qu+bJOLVqqlaCXT5Q5xpDVkDHV4hBdRNYEqM=
+github.com/qingcloudhx/core v1.0.2 h1:na/FEIaj/3YGbUJ9v27ZEP9lEhxthOHa6dTSQVsRoPQ=
+github.com/qingcloudhx/core v1.0.2/go.mod h1:XozOfKsFqepzgpN7Z0Wy4WSRgd64/aJDoRcccoxE0t0=
+github.com/qingcloudhx/flow v1.0.0/go.mod h1:EmDeMmxXnv3XsRVG2s5C+W9h2hrKrZzuPPTzNlmx/zo=
+github.com/qingcloudhx/flow-plugin/activity/log v0.0.0-20190625104814-259c6d75af9e/go.mod h1:Lwynx7TSJS2lVg0RM8mrCADb7Sxr2cO4AIwK2t11Pl8=
+github.com/qingcloudhx/flow-plugin/trigger/rest v0.0.0-20190625104814-259c6d75af9e/go.mod h1:OMs4msTLOzCRPdVk442hKXzTRRBgjXORS+6FCN9pmXY=
 github.com/stretchr/objx v0.1.0 h1:4G4v2dO3VZwixGIRoQ5Lfboy6nUhCyYzaqnIAPPhYs4=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
 github.com/stretchr/testify v1.3.0 h1:TivCn/peBQ7UY8ooIcPgZFpTNSz0Q2U6UrFlUfqbe0Q=

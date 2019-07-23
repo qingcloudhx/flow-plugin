@@ -2,10 +2,10 @@ package qingcloud_encode_hearbeat
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	mqtt "github.com/eclipse/paho.mqtt.golang"
 	"github.com/muesli/cache2go"
-	"errors"
 	"github.com/qingcloudhx/core/activity"
 	"github.com/qingcloudhx/core/data/metadata"
 	"github.com/qingcloudhx/core/support/log"
