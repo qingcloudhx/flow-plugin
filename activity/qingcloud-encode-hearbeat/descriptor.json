@@ -100,11 +100,13 @@
   "output": [
     {
       "name": "topic",
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     {
       "name": "message",
-      "type": "string"
+      "type": "string",
+      "required": true
     }
   ]
 }
