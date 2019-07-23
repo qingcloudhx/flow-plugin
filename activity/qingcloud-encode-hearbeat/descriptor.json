@@ -9,7 +9,8 @@
     {
       "name": "format",
       "type": "string",
-      "required": true
+      "required": true,
+      "description": "The topic hearbeat format"
     },
     {
       "name": "broker",
