@@ -120,8 +120,10 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 	message["deviceID"] = input.DeviceId
 	message["time"] = time.Now().Unix() * 1000
 	message["status"] = "online"
-	if exists(input.DeviceId) {
-		return false, nil
+	if exists(topic) {
+		a.log.Infof("no need publish hearbeat topic:%s", topic)
+		add(topic, 15*time.Second, message, a.callback)
+		return true, nil
 	}
 	add(topic, 15*time.Second, message, a.callback)
 	data, _ := json.Marshal(message)
