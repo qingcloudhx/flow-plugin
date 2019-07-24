@@ -11,8 +11,6 @@ github.com/davecgh/go-spew v1.1.0 h1:ZDRjVQ15GmhC3fiQ8ni8+OwkZQO4DARzQgrnXU1Liz8
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
-github.com/dgrijalva/jwt-go v3.2.0+incompatible h1:7qlOGliEKZXTDg6OTjfoBKDXWrumCAMpl/TFQ4/5kLM=
-github.com/dgrijalva/jwt-go v3.2.0+incompatible/go.mod h1:E3ru+11k8xSBh+hMPgOLZmtrrCbhqsmaPHjLKYnJCaQ=
 github.com/fatih/color v1.7.0/go.mod h1:Zm6kSWBoL9eyXnKyktHP6abPY2pDugNf5KwzbycvMj4=
 github.com/flynn-archive/go-shlex v0.0.0-20150515145356-3f9db97f8568/go.mod h1:rZfgFAXFS/z/lEd6LJmf9HVZ1LkgYiHx5pHhV5DR16M=
 github.com/gorilla/websocket v1.3.0 h1:r/LXc0VJIMd0rCMsc6DxgczaQtoCwCLatnfXmSYcXx8=
@@ -31,8 +29,6 @@ github.com/pkg/errors v0.8.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINE
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/qingcloudhx/core v0.9.3-0.20190625065757-9a4c5da90847/go.mod h1:9KromA2Qu+bJOLVqqlaCXT5Q5xpDVkDHV4hBdRNYEqM=
-github.com/qingcloudhx/core v1.0.1 h1:Pvkr6gjYk9JyvxkvvWzP1CYnfKmqKF+w3emITmuMMLY=
-github.com/qingcloudhx/core v1.0.1/go.mod h1:9KromA2Qu+bJOLVqqlaCXT5Q5xpDVkDHV4hBdRNYEqM=
 github.com/qingcloudhx/core v1.0.2 h1:na/FEIaj/3YGbUJ9v27ZEP9lEhxthOHa6dTSQVsRoPQ=
 github.com/qingcloudhx/core v1.0.2/go.mod h1:XozOfKsFqepzgpN7Z0Wy4WSRgd64/aJDoRcccoxE0t0=
 github.com/qingcloudhx/flow v1.0.0/go.mod h1:EmDeMmxXnv3XsRVG2s5C+W9h2hrKrZzuPPTzNlmx/zo=
