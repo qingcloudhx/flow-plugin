@@ -24,13 +24,14 @@ const (
 )
 
 //create head
-func buildHead(cmd, clientId, username, password string) map[string]interface{} {
+func buildHead(cmd, clientId, username, password, topic string) map[string]interface{} {
 	head := make(map[string]interface{})
 	head[mqtt_client_id] = clientId
 	head[mqtt_cmd] = cmd
 	head[mqtt_poctocol] = "mqtt"
 	head[mqtt_username] = username
 	head[mqtt_password] = password
+	head[mqtt_topic] = topic
 	return head
 }
 

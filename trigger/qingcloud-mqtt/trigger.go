@@ -102,7 +102,7 @@ func (t *Trigger) runServer(url string) error {
 		case broker.ClientDisconnected:
 			t.logger.Infof("[%s] client lost event:%s", client.ID(), e)
 			if dev := t.deviceCon.Get(client.ID()); dev != nil {
-				data := buildPackage(buildHead(mqtt_cmd_disconnect, client.ID(), "", ""), []byte{})
+				data := buildPackage(buildHead(mqtt_cmd_disconnect, client.ID(), "", "", ""), []byte{})
 				if err := dev.Up(data); err != nil {
 					t.logger.Errorf("dev up cmd:%s error:%s", mqtt_cmd_connect, err)
 				}
@@ -115,7 +115,7 @@ func (t *Trigger) runServer(url string) error {
 					t.logger.Infof("[%s] client create data:%s", v.ClientID, v.String())
 					dev := NewDevice(v.ClientID, client, t)
 					t.deviceCon.Set(v.ClientID, dev)
-					data := buildPackage(buildHead(mqtt_cmd_connect, v.ClientID, v.Username, v.Password), []byte{})
+					data := buildPackage(buildHead(mqtt_cmd_connect, v.ClientID, v.Username, v.Password, ""), []byte{})
 					if err := dev.Up(data); err != nil {
 						t.logger.Errorf("dev up cmd;%s error:%s", mqtt_cmd_connect, err)
 					}
@@ -126,7 +126,7 @@ func (t *Trigger) runServer(url string) error {
 				t.logger.Infof("[%s] up send topic:%s,recv:%s", client.ID(), msg.Topic, string(msg.Payload))
 				//id := parseTopic(msg.Topic)
 				if dev := t.deviceCon.Get(client.ID()); dev != nil {
-					data := buildPackage(buildHead(mqtt_cmd_data, client.ID(), "", ""), msg.Payload)
+					data := buildPackage(buildHead(mqtt_cmd_data, client.ID(), "", "", msg.Topic), msg.Payload)
 					if err := dev.Up(data); err != nil {
 						t.logger.Errorf("dev up cmd:%s error:%s", mqtt_cmd_data, err)
 					}
