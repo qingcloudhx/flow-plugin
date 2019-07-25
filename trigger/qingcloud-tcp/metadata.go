@@ -1,4 +1,4 @@
-package tcpudp
+package qingcloud_tcp
 
 import (
 	"github.com/qingcloudhx/core/data/coerce"
@@ -14,28 +14,34 @@ type Settings struct {
 
 type HandlerSettings struct {
 }
+
 type Output struct {
-	Data string `md:"data"` // The data received from the connection
+	Head map[string]interface{} `md:"head"`
+	Body []byte                 `md:"body"`
 }
 
 type Reply struct {
-	Reply string `md:"reply"` // The reply to be sent back
+	Reply []byte `md:"reply"` // The reply to be sent back
 }
 
 func (o *Output) ToMap() map[string]interface{} {
 	return map[string]interface{}{
-		"data": o.Data,
+		"head": o.Head,
+		"body": o.Body,
 	}
 }
 
 func (o *Output) FromMap(values map[string]interface{}) error {
 
 	var err error
-	o.Data, err = coerce.ToString(values["data"])
+	o.Body, err = coerce.ToBytes(values["body"])
 	if err != nil {
 		return err
 	}
-
+	o.Head, err = coerce.ToObject(values["head"])
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
@@ -48,7 +54,7 @@ func (r *Reply) ToMap() map[string]interface{} {
 func (r *Reply) FromMap(values map[string]interface{}) error {
 
 	var err error
-	r.Reply, err = coerce.ToString(values["reply"])
+	r.Reply, err = coerce.ToBytes(values["reply"])
 	if err != nil {
 		return err
 	}

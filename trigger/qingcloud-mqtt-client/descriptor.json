@@ -2,7 +2,7 @@
     "name": "flogo-qingcloud-mqtt-client",
     "type": "flogo:trigger",
     "version": "0.1.0",
-    "title": "Receive MQTT Message",
+    "title": "Receive MQTT client  Message",
     "description": "Simple MQTT Trigger",
     "homepage": "https://github.com/qingcloudhx/edge-contrib/tree/master/trigger/qingcloud-mqtt-client",
     "settings":[
