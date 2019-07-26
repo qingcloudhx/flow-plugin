@@ -60,11 +60,11 @@ func New(ctx activity.InitContext) (activity.Activity, error) {
 
 	mqttClient := mqtt.NewClient(options)
 
-	if token := mqttClient.Connect(); token.Wait() && token.Error() != nil {
+	if token := mqttClient.Connect(); token.WaitTimeout(5*time.Second) && token.Error() != nil {
 		ctx.Logger().Error(token.Error())
 		go func() {
 			for {
-				if token := mqttClient.Connect(); token.Wait() && token.Error() != nil {
+				if token := mqttClient.Connect(); token.WaitTimeout(5*time.Second) && token.Error() != nil {
 					ctx.Logger().Error(token.Error())
 					time.Sleep(3 * time.Second)
 				} else {
