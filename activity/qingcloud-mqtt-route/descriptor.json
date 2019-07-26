@@ -1,0 +1,37 @@
+{
+  "name": "qingcloud-hearbeat-activity",
+  "type": "flogo:activity",
+  "version": "0.0.1",
+  "title": "Qingcloud Hearbeat Activity",
+  "description": "Qingcloud Hearbeat Activity",
+  "homepage": "https://github.com/qingcloudhx/flow-plugin/tree/master/activity/qingcloud-encode-hearbeat",
+  "settings": [
+    {
+      "name": "route",
+      "type": "object",
+      "required": true,
+      "description": "route object"
+    }
+  ],
+  "input": [
+    {
+      "name": "topic",
+      "type": "string",
+      "required": true,
+      "description": "mqtt message topic"
+    },
+    {
+      "name": "message",
+      "type": "string",
+      "required": true,
+      "description": "mqtt message"
+    }
+  ],
+  "output": [
+    {
+      "name": "data",
+      "type": "object",
+      "required": true
+    }
+  ]
+}
