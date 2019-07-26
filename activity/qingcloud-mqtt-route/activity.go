@@ -2,6 +2,7 @@ package qingcloud_mqtt_route
 
 import (
 	"github.com/qingcloudhx/core/activity"
+	"github.com/qingcloudhx/core/data/coerce"
 	"github.com/qingcloudhx/core/data/metadata"
 	"github.com/qingcloudhx/core/support/log"
 )
@@ -50,9 +51,11 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 	a.log.Debugf("eval start:%+v", input)
 	output := &Output{}
 	if v, ok := a.settings.Route[input.Topic]; ok {
-		for _, val := range v {
+		value, _ := coerce.ToArray(v)
+		for _, val := range value {
+			sval, _ := coerce.ToString(val)
 			temp := make(map[string]interface{})
-			temp["topic"] = val
+			temp["topic"] = sval
 			temp["message"] = input.Message
 			output.Data = append(output.Data, temp)
 		}

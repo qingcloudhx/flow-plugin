@@ -3,7 +3,7 @@ package qingcloud_mqtt_route
 import "github.com/qingcloudhx/core/data/coerce"
 
 type Settings struct {
-	Route map[string][]string `md:"route"`
+	Route map[string]interface{} `md:"route"`
 }
 
 type Input struct {
