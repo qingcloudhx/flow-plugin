@@ -2,7 +2,7 @@
   "name": "flogo-mqtts",
   "type": "flogo:activity",
   "version": "0.1.0",
-  "title": "MQTT Activity",
+  "title": "Qingcloud mqtt activity",
   "description": "Send MQTT message",
   "homepage": "https:/github.com/qingcloudhx/flow-plugin/tree/master/activity/mqtts",
   "settings": [
