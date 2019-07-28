@@ -7,7 +7,7 @@
   "homepage": "https://qingcloudhx/flow-plugin/tree/master/trigger/qingcloud-mqtt",
   "settings": [
     {
-      "name": "address",
+      "name": "url",
       "type": "string",
       "required": true,
       "description": "The broker listener address(tcp://127.0.0.1:1883)"
@@ -15,7 +15,7 @@
     {
       "name": "event",
       "type": "string",
-      "required": true,
+      "required": false,
       "description": "The down of client event"
     }
   ],
