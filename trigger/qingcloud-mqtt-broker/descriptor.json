@@ -1,0 +1,82 @@
+{
+  "name": "flogo-qingcloud-mqtt",
+  "type": "flogo:mqtt broker",
+  "version": "0.1.0",
+  "title": "mqtt broker",
+  "description": "Simple mqtt broker trigger",
+  "homepage": "https://qingcloudhx/flow-plugin/tree/master/trigger/qingcloud-mqtt",
+  "settings": [
+    {
+      "name": "address",
+      "type": "string",
+      "required": true,
+      "description": "The broker listener address(tcp://127.0.0.1:1883)"
+    },
+    {
+      "name": "event",
+      "type": "string",
+      "required": true,
+      "description": "The down of client event"
+    }
+  ],
+  "handler": {
+  },
+  "output": [
+    {
+      "name": "head",
+      "type": "object",
+      "properties": {
+        "cmd": {
+          "type": "string"
+        },
+        "clienId": {
+          "type": "string"
+        },
+        "poctocol": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "description": "The message head"
+    },
+    {
+      "name": "body",
+      "type": "bytes",
+      "description": "The message body"
+    }
+  ],
+  "event": [
+    {
+      "name": "head",
+      "type": "object",
+      "properties": {
+        "cmd": {
+          "type": "string"
+        },
+        "clienId": {
+          "type": "string"
+        },
+        "poctocol": {
+          "type": "string"
+        },
+        "topic": {
+          "type": "string"
+        },
+        "qos": {
+          "type": "number"
+        }
+      },
+      "description": "The event head"
+    },
+    {
+      "name": "body",
+      "type": "bytes",
+      "description": "The event body"
+    }
+  ]
+}
