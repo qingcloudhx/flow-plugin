@@ -5,32 +5,30 @@
   "title": "qingcloud build property",
   "description": "Simple Timer Rand trigger",
   "homepage": "https://qingcloudhx/flow-plugin/tree/master/trigger/qingcloud-timer-rand",
-  "handler": {
-    "settings": [
-      {
-        "name": "device",
-        "type": "array",
-        "description": "The Setting Device array",
-        "items": {
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "string",
-              "description": "desc prperty id"
-            },
-            "type": {
-              "type": "string",
-              "description": "desc prperty type"
-            },
-            "name": {
-              "type": "string",
-              "description": "desc prperty name"
-            }
+  "settings": [
+    {
+      "name": "device",
+      "type": "array",
+      "description": "The Setting Device array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "desc prperty id"
+          },
+          "type": {
+            "type": "string",
+            "description": "desc prperty type"
+          },
+          "name": {
+            "type": "string",
+            "description": "desc prperty name"
           }
         }
       }
-    ]
-  },
+    }
+  ]
   "output": [
     {
       "name": "device",
