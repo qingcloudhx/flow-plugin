@@ -5,7 +5,7 @@ import (
 )
 
 type Settings struct {
-	Device []interface{} `md:"device,required"` // The broker URL
+	Device map[string]interface{} `md:"device,required"` // The broker URL
 }
 
 type Output struct {
