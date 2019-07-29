@@ -1,22 +1,18 @@
-package qingcloud_temp_mqtt
-
-import "github.com/qingcloudhx/core/data/coerce"
+package qingcloud_mqtt_build
 
 type Settings struct {
 	Broker       string                 `md:"broker,required"` // The broker URL
-	Id           string                 `md:"id,required"`     // The id of client
+	Id           string                 `md:"id"`              // The id of client
 	Username     string                 `md:"username"`        // The user's name
 	Password     string                 `md:"password"`        // The user's password
 	Store        string                 `md:"store"`           // The store for message persistence
 	CleanSession bool                   `md:"cleanSession"`    // Clean session flag
-	Topic        string                 `md:"topic"`           // The topic to publish to
 	Qos          int                    `md:"qos"`             // The Quality of Service
 	SSLConfig    map[string]interface{} `md:"sslConfig"`       // SSL Configuration
 }
 
 type Input struct {
-	Message map[string]interface{} `md:"message"` // The message to send
-	Color   string                 `md:"color"`
+	Device interface{} `md:"device"` // The message to send
 }
 
 type Output struct {
@@ -25,14 +21,12 @@ type Output struct {
 
 func (i *Input) ToMap() map[string]interface{} {
 	return map[string]interface{}{
-		"message": i.Message,
-		"color":   i.Color,
+		"device": i.Device,
 	}
 }
 
 func (i *Input) FromMap(values map[string]interface{}) error {
-	i.Message, _ = coerce.ToObject(values["message"])
-	i.Color, _ = coerce.ToString(values["color"])
+	i.Device, _ = values["device"]
 	return nil
 }
 

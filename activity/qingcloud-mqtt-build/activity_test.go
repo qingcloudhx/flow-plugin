@@ -1,4 +1,4 @@
-package qingcloud_temp_mqtt
+package qingcloud_mqtt_build
 
 import (
 	"testing"
