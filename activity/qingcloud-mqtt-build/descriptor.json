@@ -2,7 +2,7 @@
   "name": "flogo-qingcloud-mqtt-test",
   "type": "flogo:activity",
   "version": "0.1.0",
-  "title": "MQTT Build Message",
+  "title": "qingcloud mqtt build",
   "description": "Send mqtt Build Message",
   "homepage": "https://qingcloud-flow/edge-contrib/tree/master/activity/qingcloud-mqtt-build",
   "settings": [
