@@ -21,7 +21,7 @@ func TestEval(t *testing.T) {
 	act := &Activity{}
 	tc := test.NewActivityContext(act.Metadata())
 
-	input := &Input{Head: map[string]interface{}{"id": "test message"}, Body: []byte("assasas")}
+	input := &Input{}
 	tc.SetInputObject(input)
 
 	act.Eval(tc)

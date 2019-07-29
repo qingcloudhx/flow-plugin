@@ -1,8 +1,8 @@
 {
-  "name": "flogo-timer-rand",
+  "name": "flogo-build-property",
   "type": "flogo:trigger",
   "version": "0.9.0",
-  "title": "Qingcloud Timer Rand",
+  "title": "Qingcloud Build Property",
   "description": "Simple Timer Rand trigger",
   "homepage": "https://qingcloudhx/flow-plugin/tree/master/trigger/qingcloud-timer-rand",
   "handler": {

@@ -1,21 +1,19 @@
 {
-  "name": "flogo-qingcloud-mqtt-client",
+  "name": "flogo-qingcloud-mqtt-test",
   "type": "flogo:activity",
   "version": "0.1.0",
   "title": "MQTT Activity",
-  "description": "Send MQTT message",
-  "homepage": "https://qingcloud-flow/edge-contrib/tree/master/activity/mqtt",
+  "description": "Send mqtt Build Message",
+  "homepage": "https://qingcloud-flow/edge-contrib/tree/master/activity/qingcloud-mqtt-build",
   "settings": [
     {
       "name": "broker",
       "type": "string",
-      "required": true,
       "description": "The broker URL"
     },
     {
       "name": "id",
       "type": "string",
-      "required": true,
       "description": "The id of client"
     },
     {
@@ -43,11 +41,6 @@
       "name": "cleanSession",
       "type": "boolean",
       "description": "Clean session flag"
-    },
-    {
-      "name": "topic",
-      "type": "string",
-      "description": "The topic to publish to"
     },
     {
       "name": "sslConfig",
@@ -86,7 +79,7 @@
   ],
   "input": [
     {
-      "name": "message",
+      "name": "device",
       "type": "object",
       "description": "The message to send"
     }
