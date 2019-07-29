@@ -8,25 +8,8 @@
   "settings": [
     {
       "name": "device",
-      "type": "array",
-      "description": "The Setting Device array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "desc prperty id"
-          },
-          "type": {
-            "type": "string",
-            "description": "desc prperty type"
-          },
-          "name": {
-            "type": "string",
-            "description": "desc prperty name"
-          }
-        }
-      }
+      "type": "object",
+      "description": "The Setting Device object"
     }
   ],
   "output": [
