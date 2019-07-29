@@ -17,8 +17,14 @@ func TestRegister(t *testing.T) {
 }
 
 func TestEval(t *testing.T) {
-
-	act := &Activity{}
+	s := make(map[string]interface{})
+	s["xx"] = make(map[string]interface{})
+	m := make(map[string]interface{})
+	m["id"] = "1212"
+	m["type"] = "int32"
+	s["xx"] = m
+	ss := Settings{s}
+	act := &Activity{settings: &ss}
 	tc := test.NewActivityContext(act.Metadata())
 
 	input := &Input{}

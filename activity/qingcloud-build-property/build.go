@@ -12,26 +12,27 @@ import (
  */
 
 func build(settings *Settings) *Output {
-	out := &Output{}
-	for _, v := range settings.Device {
+	out := &Output{Device: make(map[string]interface{})}
+	for k, v := range settings.Device {
 		vm, _ := coerce.ToObject(v)
-		out.Device[vm["name"].(string)] = make(map[string]interface{})
+		out.Device[k] = make(map[string]interface{})
 		msg := make(map[string]interface{})
-		if m, err := coerce.ToObject(v); err != nil {
+		if m, err := coerce.ToObject(vm); err != nil {
 		} else {
 			msg["id"] = m["id"]
 			msg["type"] = m["type"]
 			msg["time"] = time.Now().Unix() * 1000
 			switch m["type"] {
 			case "float":
-				m["value"] = rand.Float64() + float64(rand.Intn(10))
+				msg["value"] = rand.Float64() + float64(rand.Intn(10))
 			case "int32":
-				m["value"] = rand.Intn(100)
+				msg["value"] = rand.Intn(100)
 			case "string":
-				m["value"] = m["value"]
+				msg["value"] = m["value"]
 			default:
 
 			}
+			out.Device[k] = msg
 		}
 	}
 
