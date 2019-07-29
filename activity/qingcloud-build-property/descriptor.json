@@ -1,6 +1,6 @@
 {
   "name": "flogo-build-property",
-  "type": "flogo:trigger",
+  "type": "flogo:activity",
   "version": "0.9.0",
   "title": "Qingcloud Build Property",
   "description": "Simple Timer Rand trigger",
