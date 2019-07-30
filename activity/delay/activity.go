@@ -1,9 +1,7 @@
 package delay
 
 import (
-	"fmt"
 	"github.com/qingcloudhx/core/activity"
-	"github.com/qingcloudhx/core/data/coerce"
 	"github.com/qingcloudhx/core/data/metadata"
 	"time"
 )
@@ -12,32 +10,32 @@ func init() {
 	_ = activity.Register(&Activity{})
 }
 
-type Input struct {
-	Message    string `md:"message"`    // The message to log
-	AddDetails bool   `md:"addDetails"` // Append contextual execution information to the log message
-}
-
-func (i *Input) ToMap() map[string]interface{} {
-	return map[string]interface{}{
-		"message":    i.Message,
-		"addDetails": i.AddDetails,
-	}
-}
-
-func (i *Input) FromMap(values map[string]interface{}) error {
-
-	var err error
-	i.Message, err = coerce.ToString(values["message"])
-	if err != nil {
-		return err
-	}
-	i.AddDetails, err = coerce.ToBool(values["addDetails"])
-	if err != nil {
-		return err
-	}
-
-	return nil
-}
+//type Input struct {
+//	Message    string `md:"message"`    // The message to log
+//	AddDetails bool   `md:"addDetails"` // Append contextual execution information to the log message
+//}
+//
+//func (i *Input) ToMap() map[string]interface{} {
+//	return map[string]interface{}{
+//		"message":    i.Message,
+//		"addDetails": i.AddDetails,
+//	}
+//}
+//
+//func (i *Input) FromMap(values map[string]interface{}) error {
+//
+//	var err error
+//	i.Message, err = coerce.ToString(values["message"])
+//	if err != nil {
+//		return err
+//	}
+//	i.AddDetails, err = coerce.ToBool(values["addDetails"])
+//	if err != nil {
+//		return err
+//	}
+//
+//	return nil
+//}
 
 type Settings struct {
 	Delay int `md:"delay,required"`
@@ -73,14 +71,15 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 	input := &Input{}
 	ctx.GetInputObject(input)
 
-	msg := input.Message
-
-	if input.AddDetails {
-		msg = fmt.Sprintf("'%s' - HostID [%s], HostName [%s], Activity [%s]", msg,
-			ctx.ActivityHost().ID(), ctx.ActivityHost().Name(), ctx.Name())
-	}
 	time.Sleep(time.Duration(a.Delay) * time.Millisecond)
-	ctx.Logger().Info(msg)
-
+	ctx.Logger().Infof("delay:%d data:%+v", a.Delay, input)
+	output := &Output{
+		Type: input.Type,
+		Data: input.Data,
+	}
+	err = ctx.SetOutputObject(output)
+	if err != nil {
+		return false, err
+	}
 	return true, nil
 }
