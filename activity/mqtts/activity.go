@@ -147,6 +147,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 				return true, nil
 			}
 		}
+		time.Sleep(time.Duration(a.settings.Delay) * time.Millisecond)
 		message, _ := json.Marshal(object["message"])
 		ctx.Logger().Infof("[Activity] Eval  Topic:%s,Message:%s", topic, message)
 		if token := a.client.Publish(topic, byte(a.settings.Qos), true, message); token.Wait() && token.Error() != nil {

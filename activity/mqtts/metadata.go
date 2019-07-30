@@ -12,6 +12,7 @@ type Settings struct {
 	Topic        string                 `md:"topic"`           // The topic to publish to
 	Qos          int                    `md:"qos"`             // The Quality of Service
 	SSLConfig    map[string]interface{} `md:"sslConfig"`       // SSL Configuration
+	Delay        int                    `md:"delay"`
 }
 type DeviceUpStatusMsg struct {
 	Status     string `json:"status"`

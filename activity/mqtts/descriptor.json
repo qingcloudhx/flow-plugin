@@ -7,6 +7,12 @@
   "homepage": "https:/github.com/qingcloudhx/flow-plugin/tree/master/activity/mqtts",
   "settings": [
     {
+      "name": "delay",
+      "type": "integer",
+      "required": true,
+      "description": "message delay time"
+    },
+    {
       "name": "broker",
       "type": "string",
       "required": true,
