@@ -1,0 +1,30 @@
+{
+  "name": "flogo-log-delay",
+  "type": "flogo:activity",
+  "version": "0.9.0",
+  "title": "Log delay",
+  "description": "Logs a message",
+  "homepage": "https://qingcloud-flow/plugin/tree/master/activity/log",
+  "settings": [
+    {
+      "name": "delay",
+      "type": "integer",
+      "required": true,
+      "description": "delay time"
+    }
+  ],
+  "input":[
+    {
+      "name": "message",
+      "type": "string",
+      "value": "",
+      "description": "The message to log"
+    },
+    {
+      "name": "addDetails",
+      "type": "boolean",
+      "value": false,
+      "description": "Append contextual execution information to the log message"
+    }
+  ]
+}
