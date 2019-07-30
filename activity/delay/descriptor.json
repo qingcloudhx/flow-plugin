@@ -15,16 +15,22 @@
   ],
   "input":[
     {
-      "name": "message",
-      "type": "string",
-      "value": "",
-      "description": "The message to log"
+      "name": "data",
+      "type": "array"
     },
     {
-      "name": "addDetails",
-      "type": "boolean",
-      "value": false,
-      "description": "Append contextual execution information to the log message"
+      "name": "type",
+      "type": "string"
+    }
+  ],
+  "output": [
+    {
+      "name": "data",
+      "type": "array"
+    },
+    {
+      "name": "type",
+      "type": "string"
     }
   ]
 }
