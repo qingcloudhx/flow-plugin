@@ -69,8 +69,11 @@ func (a *Activity) Metadata() *activity.Metadata {
 func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 
 	input := &Input{}
-	ctx.GetInputObject(input)
-
+	err = ctx.GetInputObject(input)
+	if err != nil {
+		ctx.Logger().Errorf("input:%+v", input)
+		return false, err
+	}
 	time.Sleep(time.Duration(a.Delay) * time.Millisecond)
 	ctx.Logger().Infof("delay:%d data:%+v", a.Delay, input)
 	output := &Output{
