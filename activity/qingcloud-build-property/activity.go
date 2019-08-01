@@ -18,7 +18,7 @@ func New(ctx activity.InitContext) (activity.Activity, error) {
 	if err != nil {
 		return nil, err
 	}
-	ctx.Logger().Infof("eval settings:%+v", settings.Device)
+	ctx.Logger().Infof("eval settings:%+v", ctx.Settings())
 	act := &Activity{settings: settings, log: ctx.Logger()}
 	return act, nil
 }
