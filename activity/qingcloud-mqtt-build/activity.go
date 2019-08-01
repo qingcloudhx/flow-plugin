@@ -98,6 +98,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 	if err != nil {
 		return true, err
 	}
+	ctx.Logger().Infof("Published input: %+v", input)
 	deviceId, thingId, err := parseToken(a.settings.Password)
 	topic := buildUpTopic(deviceId, thingId)
 	message := buildMessage(input.Device)
