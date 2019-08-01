@@ -18,6 +18,7 @@ func New(ctx activity.InitContext) (activity.Activity, error) {
 	if err != nil {
 		return nil, err
 	}
+	ctx.Logger().Infof("eval settings:%+v", settings)
 	act := &Activity{settings: settings, log: ctx.Logger()}
 	return act, nil
 }
@@ -44,6 +45,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 		ctx.Logger().Error(err)
 		return false, nil
 	}
+
 	output := build(a.settings)
 	err = ctx.SetOutputObject(output)
 	if err != nil {
