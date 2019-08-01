@@ -13,7 +13,8 @@ import (
 
 func build(settings *Settings) *Output {
 	out := &Output{Device: make(map[string]interface{})}
-	for k, v := range settings.Device {
+	devices, _ := settings.Device["mapping"]
+	for k, v := range devices.(map[string]interface{}) {
 		vm, _ := coerce.ToObject(v)
 		out.Device[k] = make(map[string]interface{})
 		msg := make(map[string]interface{})
