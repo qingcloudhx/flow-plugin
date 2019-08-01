@@ -8,13 +8,15 @@ if [ -d "$1" ]; then
 echo "$1 has existed and delete"
 rm -rf "$1"
 fi
-
+str=$1
+replace=${str//-/_}
+echo ${replace}
 mkdir $1
 cd $1
 cp -r /home/code/flowgo/core/examples/activity/* ./
 for file in $(pwd)/*; do
     echo $file
-    sed -i s/sample/$1/g "$file"
+    sed -i s/sample/${replace}/g "$file"
     #sed -i s/sample/$1/g `grep sample -rl --include="$file" ./`
 done
 
