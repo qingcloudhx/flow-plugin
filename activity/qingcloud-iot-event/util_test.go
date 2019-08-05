@@ -1,0 +1,18 @@
+package qingcloud_iot_event
+
+import (
+	"github.com/stretchr/testify/assert"
+	"testing"
+)
+
+/**
+* @Author: hexing
+* @Date: 19-7-4 上午10:35
+ */
+
+func TestParseToken(t *testing.T) {
+	u, s, err := parseToken("eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY3IiOiIxIiwiYXVkIjoiaWFtIiwiYXpwIjoiaWFtIiwiY3VpZCI6ImlhbXItOG1hbXNsMjMiLCJlaXNrIjoieVBqb1JRV3FWWTdvUHkzaHd6UHBlUmdZc3FWenUwQ0M1QnN3VW84VGh5UT0iLCJleHAiOjE1OTM1NjQ5NTMsImlhdCI6MTU2MjAyODk1MywiaXNzIjoic3RzIiwianRpIjoiQTVMVjAzT1Bsc1ZuYndZa1R4Z1pqUiIsIm5iZiI6MCwib3JnaSI6ImlvdGQtYjFkYjEyMDQtZmNkZS00MTZkLWE3ZWYtZjc2ZTRkM2Y3MWEwIiwib3d1ciI6InVzci1rTFZWQkRxZCIsInByZWYiOiJxcm46cWluZ2Nsb3VkOmlhbToiLCJydHlwIjoiaWFtX3JvbGUiLCJzdWIiOiJzdHMiLCJ0aGlkIjoiaW90dC02MGNlYjhlZS1lMWUyLTQyNDEtYjQxMC01MTgyNmRkNjllMGUiLCJ0eXAiOiJJRCJ9.tU_ZmOMMN02VgtSnIVknu_xJHEWZJ7RbMbLWxa0SeoHbbPp0A29P_JE7CNzBdyH2zTsH3Dut8-DJ27egy47UxNvXvDIXGY7GCEra4WKEI13Gm_d4_dovegktM5boWqgSlqsVm-gdM86xjpC0XxObmtmXqUt0eRaKuRzsJQzsqUnZnLqLBL8gTx21nTikhYni5aOLnimsPHyE0WJuJaGzQq0tWzTXm0V14LDEQ4Sy1RGWAPNuJBBwBROwW8hzmrffI7BwyMMBTRjiyoq5agsAeleoG_Gso2DyP4-gHGwcLdcvo4185v7joPJDlgTzK92OAFek1Md4vK81zQNtHs_mFw")
+	assert.Nil(t, err)
+	t.Log(u, s)
+
+}

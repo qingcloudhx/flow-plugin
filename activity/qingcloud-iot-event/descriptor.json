@@ -1,0 +1,99 @@
+{
+  "name": "flogo-qingcloud-mqtt-test",
+  "type": "flogo:activity",
+  "version": "0.1.0",
+  "title": "qingcloud mqtt build",
+  "description": "Send mqtt Build Message",
+  "homepage": "https://qingcloud-flow/edge-contrib/tree/master/activity/qingcloud-mqtt-build",
+  "settings": [
+    {
+      "name": "eventId",
+      "type": "string",
+      "description": "The message event id"
+    },
+    {
+      "name": "broker",
+      "type": "string",
+      "description": "The broker URL"
+    },
+    {
+      "name": "id",
+      "type": "string",
+      "description": "The id of client"
+    },
+    {
+      "name": "username",
+      "type": "string",
+      "description": "The user's name"
+    },
+    {
+      "name": "password",
+      "type": "string",
+      "description": "The user's password"
+    },
+    {
+      "name": "store",
+      "type": "string",
+      "description": "The store for message persistence"
+    },
+    {
+      "name": "qos",
+      "type": "int",
+      "allowed": [0,1,2],
+      "description": "The quality of service"
+    },
+    {
+      "name": "cleanSession",
+      "type": "boolean",
+      "description": "Clean session flag"
+    },
+    {
+      "name": "sslConfig",
+      "type": "object",
+      "description": "Optional SSL Settings",
+      "properties": [
+        {
+          "name": "skipVerify",
+          "type": "boolean",
+          "value": "true",
+          "description": "Skip SSL validation"
+        },
+        {
+          "name": "useSystemCert",
+          "type": "boolean",
+          "value": "true",
+          "description": "Use the systems root certificate file"
+        },
+        {
+          "name": "certFile",
+          "type": "string",
+          "description": "Path to PEM encoded client certificate"
+        },
+        {
+          "name": "keyFile",
+          "type": "string",
+          "description": "Path to PEM encoded client key"
+        },
+        {
+          "name": "caFile",
+          "type": "string",
+          "description": "Path to PEM encoded root certificates file"
+        }
+      ]
+    }
+  ],
+  "input": [
+    {
+      "name": "device",
+      "type": "object",
+      "description": "The message to send"
+    }
+  ],
+  "output": [
+    {
+      "name": "data",
+      "type": "object",
+      "description": "The data recieved"
+    }
+  ]
+}
